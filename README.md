@@ -51,7 +51,7 @@ curl.exe --fail-with-body -H "Content-Type: application/json" --data-binary "@ex
 
 Одна из частых ошибок связана с переводами. Модель путала `pending_transfer` и `failed_transfer`. Accuracy, размеры выборок и остальные частые ошибки есть в [отчёте](metrics.json).
 
-## Обучение
+## Обучение и тесты
 
 В Windows запустите PowerShell с Python 3.13.
 
@@ -60,12 +60,14 @@ py -3.13 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements-dev.txt
 .\.venv\Scripts\python.exe download_data.py
 .\.venv\Scripts\python.exe train.py
+.\.venv\Scripts\python.exe -m unittest discover -s tests -v
 ~~~
 
 На Linux и macOS используйте `python3.13 -m venv .venv` и `.venv/bin/python`. После обучения файлы появятся в `artifacts/`.
 
 Для запуска API с новой моделью укажите `artifacts/model.joblib` в переменной `SUPPORT_MODEL_PATH` и выполните `python -m uvicorn api:app`. В CLI готовую модель можно проверить командой `python predict.py "My card has not arrived in the mail yet"`.
 
+Тесты проверяют очистку текста, удаление дубликатов между выборками и ответы сохранённой модели на корректные и некорректные запросы. [GitHub Actions](.github/workflows/ci.yml) прогоняет эти тесты, а затем проверяет API в собранном контейнере.
 
 Скрипт скачивает CSV из указанной версии набора, опубликованного под CC BY 4.0. [BANKING77 от PolyAI](https://github.com/PolyAI-LDN/task-specific-datasets/tree/57ec275d8078af65b7731c2a98be812d844a6d6b/banking_data)
 
