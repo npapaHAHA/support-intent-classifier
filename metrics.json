@@ -1,0 +1,53 @@
+{
+  "train_rows": 7996,
+  "validation_rows": 1999,
+  "test_rows": 3071,
+  "test_rows_removed_as_train_overlap": 7,
+  "classes": 77,
+  "selected_model": "word_and_char_tfidf",
+  "validation": {
+    "most_frequent": {
+      "macro_f1": 0.0004720230653433011,
+      "accuracy": 0.018509254627313655
+    },
+    "word_tfidf": {
+      "macro_f1": 0.8699326745738567,
+      "accuracy": 0.8704352176088044
+    },
+    "word_and_char_tfidf": {
+      "macro_f1": 0.8990868841267209,
+      "accuracy": 0.8989494747373686
+    }
+  },
+  "test": {
+    "macro_f1": 0.9089605830313386,
+    "accuracy": 0.9088244871377401
+  },
+  "top_confusions": [
+    {
+      "actual": "why_verify_identity",
+      "predicted": "unable_to_verify_identity",
+      "count": 4
+    },
+    {
+      "actual": "top_up_failed",
+      "predicted": "top_up_reverted",
+      "count": 4
+    },
+    {
+      "actual": "pending_transfer",
+      "predicted": "failed_transfer",
+      "count": 4
+    },
+    {
+      "actual": "verify_my_identity",
+      "predicted": "why_verify_identity",
+      "count": 3
+    },
+    {
+      "actual": "unable_to_verify_identity",
+      "predicted": "verify_my_identity",
+      "count": 3
+    }
+  ]
+}
