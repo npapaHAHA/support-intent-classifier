@@ -1,0 +1,4 @@
+{
+  "threshold": 0.4,
+  "selection": "Initial value; replace with the threshold selected using dev.json by rag.evaluate"
+}

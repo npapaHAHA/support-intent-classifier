@@ -1,0 +1,12 @@
+FROM python:3.13-slim-bookworm
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    HF_HOME=/tmp/huggingface
+WORKDIR /app
+COPY requirements.txt requirements-rag.txt ./
+RUN python -m pip install --no-cache-dir torch==2.15.0 --index-url https://download.pytorch.org/whl/cpu \
+    && python -m pip install --no-cache-dir -r requirements-rag.txt
+COPY rag/ rag/
+USER 10001:10001
+EXPOSE 8001
+CMD ["python", "-m", "uvicorn", "rag.api:app", "--host", "0.0.0.0", "--port", "8001"]

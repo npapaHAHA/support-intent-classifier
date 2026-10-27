@@ -1,6 +1,10 @@
 **
 !Dockerfile
 !requirements.txt
+!requirements-rag.txt
+!Dockerfile.rag
+!rag/
+!rag/**
 !api.py
 !text_features.py
 !models/

@@ -1,0 +1,62 @@
+name: RAG evaluation
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      HF_HUB_DISABLE_TELEMETRY: '1'
+      TOKENIZERS_PARALLELISM: 'false'
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+          cache: pip
+          cache-dependency-path: requirements*.txt
+      - name: Install CPU inference dependencies
+        run: |
+          python -m pip install torch==2.15.0 --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install -r requirements-dev.txt -r requirements-rag.txt
+      - name: Test existing classifier and RAG logic
+        run: python -m unittest discover -s tests -v
+      - name: Evaluate retrieval and both prompts with actual model weights
+        run: python -m rag.evaluate --generation
+      - name: Build RAG service image
+        run: docker build -f Dockerfile.rag -t support-rag:ci .
+      - name: Check RAG API using downloaded model cache
+        run: |
+          docker run --detach --name support-rag-ci --user "$(id -u):$(id -g)" \
+            --env HF_HOME=/cache --volume "$HOME/.cache/huggingface:/cache" \
+            --volume "$PWD/rag/config.json:/app/rag/config.json:ro" \
+            --publish 127.0.0.1:8001:8001 support-rag:ci
+          curl --retry 60 --retry-all-errors --retry-delay 2 --retry-max-time 150 \
+            --max-time 3 --fail --silent --show-error http://127.0.0.1:8001/health
+          curl --fail --silent --show-error --max-time 60 \
+            --header 'Content-Type: application/json' \
+            --data-binary @rag/example-request.json \
+            http://127.0.0.1:8001/answer > rag/reports/api-smoke.json
+          python -c 'import json; p=json.load(open("rag/reports/api-smoke.json")); assert p["answer"] and p["sources"] and not p["abstained"], p'
+      - name: Save evaluation evidence
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: rag-evaluation
+          path: |
+            rag/reports/
+            rag/config.json
+          if-no-files-found: warn
+      - name: Show service logs
+        if: failure()
+        run: docker logs support-rag-ci || true
+      - name: Remove service
+        if: always()
+        run: docker rm --force support-rag-ci || true
