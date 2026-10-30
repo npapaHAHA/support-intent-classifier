@@ -1,0 +1,14 @@
+[
+  {"id":"d01","question":"My new debit card has not arrived. Where can I track the parcel?","document_id":"card_delivery"},
+  {"id":"d02","question":"I lost my debit card. What is the first thing to do?","document_id":"lost_card"},
+  {"id":"d03","question":"An ATM took money from my account without giving me cash. How do I report it?","document_id":"cash_missing"},
+  {"id":"d04","question":"My bank transfer failed. How can I fix the recipient details?","document_id":"failed_transfer"},
+  {"id":"d05","question":"Someone made a card payment I do not recognize. How do I report fraud?","document_id":"unknown_payment"},
+  {"id":"d06","question":"How do I update my phone number in the banking app?","document_id":"change_phone"},
+  {"id":"d07","question":"I forgot my PIN. Where can I view it?","document_id":"forgot_pin"},
+  {"id":"d08","question":"Where can I download an account statement as PDF?","document_id":"download_statement"},
+  {"id":"d09","question":"Write a recipe for tomato soup.","document_id":null},
+  {"id":"d10","question":"Who won the last football world cup?","document_id":null},
+  {"id":"d11","question":"What is the annual interest rate on a mortgage?","document_id":null},
+  {"id":"d12","question":"Can I open a fixed term savings deposit?","document_id":null}
+]

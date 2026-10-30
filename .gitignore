@@ -2,6 +2,8 @@
 __pycache__/
 *.py[cod]
 data/
+!rag/data/
+!rag/data/*.json
 artifacts/
 .env
 .env.*

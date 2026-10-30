@@ -10,13 +10,15 @@ Use Python 3.13. From the repository root:
 
 ```bash
 python -m venv .venv
+source .venv/bin/activate
 python -m pip install torch==2.15.0 --index-url https://download.pytorch.org/whl/cpu
 python -m pip install -r requirements-dev.txt -r requirements-rag.txt
 python -m rag.evaluate --generation
 python -m uvicorn rag.api:app --port 8001
 ```
 
-Use the Python executable from the activated virtual environment. On Windows it is
+The activation command above is for Linux/macOS. In Windows PowerShell use
+`.\.venv\Scripts\Activate.ps1`. Use the Python executable from the activated virtual environment. On Windows it is
 `.venv\Scripts\python.exe`; on Linux/macOS it is `.venv/bin/python`.
 The first evaluation downloads public model weights; subsequent runs can use the cache.
 No API key, paid endpoint or GPU is required. Both model revisions are pinned in source.
