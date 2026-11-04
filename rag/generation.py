@@ -3,8 +3,8 @@ from threading import Lock
 from rag.retrieval import Hit
 
 
-GENERATION_MODEL = "HuggingFaceTB/SmolLM2-135M-Instruct"
-GENERATION_REVISION = "12fd25f77366fa6b3b4b768ec3050bf629380bac"
+GENERATION_MODEL = "Qwen/Qwen2.5-0.5B-Instruct"
+GENERATION_REVISION = "7ae557604adf67be50417f59c2c2f167def9a775"
 
 
 def build_messages(question: str, hits: list[Hit], variant: str = "grounded") -> list[dict]:

@@ -93,6 +93,8 @@ def main():
         }},
         "models": {"embedding": EMBEDDING_MODEL, "embedding_revision": EMBEDDING_REVISION,
                    "generation": GENERATION_MODEL, "generation_revision": GENERATION_REVISION},
+        "generation_context_documents": 1,
+        "generation_readout": "Exploratory: Qwen/top-1 context chosen after qualitative review of SmolLM2 outputs on this benchmark",
         "retrieval": {},
     }
     dense = None

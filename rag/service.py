@@ -18,9 +18,11 @@ class SupportAssistant:
         hits = self.retriever.search(question, k=min(3, len(self.retriever.documents)))
         if hits[0].score < self.threshold:
             return {"answer": ABSTENTION, "abstained": True, "sources": []}
-        answer = self.generator.generate(question, hits, variant)
+        # Keep the small model focused on the best document. Return only context it saw.
+        context = hits[:1]
+        answer = self.generator.generate(question, context, variant)
         return {
             "answer": answer,
             "abstained": False,
-            "sources": [{**asdict(hit.document), "score": hit.score} for hit in hits],
+            "sources": [{**asdict(hit.document), "score": hit.score} for hit in context],
         }

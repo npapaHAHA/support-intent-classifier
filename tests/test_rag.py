@@ -99,3 +99,12 @@ class AssistantTest(unittest.TestCase):
         for payload in ({}, {"question": " "}, {"question": 1}, {"question": "x" * 1001},
                         {"question": "hi", "extra": True}):
             self.assertEqual(client.post("/answer", json=payload).status_code, 422)
+
+    def test_sources_match_context_passed_to_generator(self):
+        other = Document("pin", "PIN", "View your PIN in the app")
+        best = Hit(self.doc, 0.8)
+        self.retriever.search.return_value = [best, Hit(other, 0.6)]
+        self.generator.generate.return_value = "Track delivery."
+        result = self.assistant.answer("where is my card")
+        self.generator.generate.assert_called_once_with("where is my card", [best], "grounded")
+        self.assertEqual([source["id"] for source in result["sources"]], ["card"])

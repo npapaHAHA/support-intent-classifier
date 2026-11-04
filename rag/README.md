@@ -29,14 +29,15 @@ curl --fail-with-body -H "Content-Type: application/json" \
 ```
 
 In PowerShell use `curl.exe` with the same arguments on one line. The response contains
-`answer`, `abstained`, and up to three `sources` with document IDs, text and cosine scores.
+`answer`, `abstained`, and `sources` with document IDs, text and cosine scores.
+The best matching document is passed to generation and returned as the source.
 Sources are retrieved context, not proof that every generated claim is supported.
 
 ## What is implemented
 
 - Dense retrieval with `sentence-transformers/all-MiniLM-L6-v2`, normalized embeddings
   and cosine similarity; word/bigram TF-IDF is the comparison baseline.
-- Local CPU generation with `HuggingFaceTB/SmolLM2-135M-Instruct`. One prompt simply
+- Local CPU generation with `Qwen/Qwen2.5-0.5B-Instruct`. One prompt simply
   asks for an answer from the notes; the other asks for a short next action, gives
   explicit context boundaries, and asks the model to avoid inventing facts.
 - A similarity threshold selected using **only 12 development questions**. Below it,
@@ -45,7 +46,7 @@ Sources are retrieved context, not proof that every generated claim is supported
   including questions about loans and investments that are absent from the notes.
 
 The 12 documents are already short, self-contained chunks. There is no need for a vector
-database at this scale: the embeddings fit in memory. The language model is only 135M
+database at this scale: the embeddings fit in memory. The language model has about 0.5B
 parameters; read the generated answers in the report before drawing conclusions.
 
 ## Evaluation
@@ -67,6 +68,12 @@ against hallucinations. The paired bootstrap resamples supported questions, pres
 both prompt results for each question. Its 95% interval applies only to this small,
 authored benchmark. This is an offline prompt comparison, not a live A/B test.
 
+The initial SmolLM2-135M run with three retrieved documents is preserved in
+`reports/smollm2-baseline.json`. Its answers sometimes copied unrelated context or
+answered the wrong question. Qwen with a single context document was chosen after
+reading those outputs. Consequently the current generation comparison on these
+same questions is exploratory, not a fresh, blinded test of model selection.
+
 The evaluation set does not establish quality on real customer traffic. A cosine
 threshold can miss unsupported questions; prompt instructions do not guarantee protection
 against prompt injection. Account data, transaction execution, agents, fine-tuning,
@@ -86,4 +93,5 @@ The regular CI runs unit/API tests without downloading LLM weights. The separate
 an HTTP request to the running container, and uploads results as an artifact.
 
 Model references: [MiniLM model card](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2),
-[SmolLM2 model card](https://huggingface.co/HuggingFaceTB/SmolLM2-135M-Instruct).
+[Qwen model card](https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct),
+[initial SmolLM2 baseline](https://huggingface.co/HuggingFaceTB/SmolLM2-135M-Instruct).

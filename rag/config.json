@@ -1,4 +1,4 @@
 {
-  "threshold": 0.4,
-  "selection": "Initial value; replace with the threshold selected using dev.json by rag.evaluate"
+  "threshold": 0.379157193005085,
+  "selection": "Balanced answerability accuracy on dev.json only; no test tuning"
 }
