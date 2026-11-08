@@ -126,20 +126,23 @@ def main():
         for variant in ("plain", "grounded"):
             records, success = [], []
             for case in test:
-                result = assistant.answer(case["question"], variant)
+                result = assistant.answer(case["question"], variant, include_raw=True)
                 # Keyword coverage is a transparent weak proxy, not factual correctness.
                 passed = bool(case["document_id"]) and not result["abstained"] and all(
-                    term.casefold() in result["answer"].casefold() for term in case.get("answer_terms", [])
+                    term.casefold() in result.get("raw_generation", "").casefold()
+                    for term in case.get("answer_terms", [])
                 )
                 if case["document_id"]:
                     success.append(passed)
                 records.append({"id": case["id"], "question": case["question"],
                                 "expected_document": case["document_id"],
                                 "keyword_coverage_pass": passed, **result})
-                print(variant, case["id"], result["answer"][:100], flush=True)
+                print(variant, case["id"], result["mode"], result["answer"][:100], flush=True)
             outcomes[variant] = success
             report["generation"][variant] = {
                 "keyword_coverage_rate_on_supported": float(np.mean(success)),
+                "quote_fallback_count": sum(record["mode"] == "retrieved_quote" for record in records),
+                "verbatim_generation_count": sum(record["mode"] == "verbatim_generation" for record in records),
                 "predictions": records,
             }
         report["prompt_comparison"] = {

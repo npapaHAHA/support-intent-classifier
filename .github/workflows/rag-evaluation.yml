@@ -44,7 +44,7 @@ jobs:
             --header 'Content-Type: application/json' \
             --data-binary @rag/example-request.json \
             http://127.0.0.1:8001/answer > rag/reports/api-smoke.json
-          python -c 'import json; p=json.load(open("rag/reports/api-smoke.json")); assert p["answer"] and p["sources"] and not p["abstained"], p'
+          python -c 'import json; p=json.load(open("rag/reports/api-smoke.json")); assert p["answer"] and p["sources"] and not p["abstained"], p; source=p["sources"][0]["text"]; assert p["answer"] in source and "raw_generation" not in p, p'
       - name: Save evaluation evidence
         if: always()
         uses: actions/upload-artifact@v6
