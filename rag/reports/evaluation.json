@@ -1,0 +1,1710 @@
+{
+  "dataset": "hand-authored fictional banking support, not BANKING77 or Sber policies",
+  "dev_questions": 12,
+  "test_questions": 24,
+  "data_sha256": {
+    "knowledge.json": "63265a7888a09fa830a5f7c0445f4a6e586b20f916ce5a14557d6f6256368566",
+    "dev.json": "4dea78d67fcdbb5050606bfc26692b34941163abbf64d36b8c7ff9f0c4d11297",
+    "test.json": "82397bbfd9f2bdbb6b6d7174c95ab2e41ec84c715686ba6eb4202102119060d6"
+  },
+  "environment": {
+    "python": "3.13.18",
+    "torch": "2.15.0+cpu",
+    "transformers": "5.23.0",
+    "sentence-transformers": "6.3.0",
+    "scikit-learn": "1.9.1"
+  },
+  "models": {
+    "embedding": "sentence-transformers/all-MiniLM-L6-v2",
+    "embedding_revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+    "generation": "Qwen/Qwen2.5-0.5B-Instruct",
+    "generation_revision": "7ae557604adf67be50417f59c2c2f167def9a775"
+  },
+  "generation_context_documents": 1,
+  "generation_readout": "Exploratory: Qwen/top-1 context chosen after qualitative review of SmolLM2 outputs on this benchmark",
+  "retrieval": {
+    "tfidf": {
+      "threshold_selected_on_dev": 0.20375874743575784,
+      "supported_questions": 18,
+      "recall_at_1": 0.7777777777777778,
+      "recall_at_3": 1.0,
+      "mrr_at_3": 0.8703703703703703,
+      "answerability_accuracy": 0.75,
+      "unsupported_rejection_rate": 0.8333333333333334,
+      "supported_acceptance_rate": 0.7222222222222222,
+      "predictions": [
+        {
+          "id": "t01",
+          "expected": "card_delivery",
+          "hits": [
+            {
+              "id": "card_delivery",
+              "score": 0.22585482701270274
+            },
+            {
+              "id": "pending_card",
+              "score": 0.16888101635096503
+            },
+            {
+              "id": "lost_card",
+              "score": 0.1568219035345133
+            }
+          ]
+        },
+        {
+          "id": "t02",
+          "expected": "lost_card",
+          "hits": [
+            {
+              "id": "lost_card",
+              "score": 0.1730979731981392
+            },
+            {
+              "id": "pending_card",
+              "score": 0.10070179497415567
+            },
+            {
+              "id": "download_statement",
+              "score": 0.06317565532673636
+            }
+          ]
+        },
+        {
+          "id": "t03",
+          "expected": "cash_missing",
+          "hits": [
+            {
+              "id": "cash_missing",
+              "score": 0.19363498510119836
+            },
+            {
+              "id": "cash_fee",
+              "score": 0.08544058800116168
+            },
+            {
+              "id": "card_delivery",
+              "score": 0.08339819269818388
+            }
+          ]
+        },
+        {
+          "id": "t04",
+          "expected": "pending_card",
+          "hits": [
+            {
+              "id": "pending_card",
+              "score": 0.2727634858188506
+            },
+            {
+              "id": "lost_card",
+              "score": 0.14144106380345306
+            },
+            {
+              "id": "pending_transfer",
+              "score": 0.13476562739646814
+            }
+          ]
+        },
+        {
+          "id": "t05",
+          "expected": "pending_transfer",
+          "hits": [
+            {
+              "id": "pending_transfer",
+              "score": 0.39274597689512514
+            },
+            {
+              "id": "failed_transfer",
+              "score": 0.30955812522410586
+            },
+            {
+              "id": "pending_card",
+              "score": 0.1638484019078343
+            }
+          ]
+        },
+        {
+          "id": "t06",
+          "expected": "failed_transfer",
+          "hits": [
+            {
+              "id": "pending_transfer",
+              "score": 0.3361736876433993
+            },
+            {
+              "id": "failed_transfer",
+              "score": 0.17576837235760845
+            },
+            {
+              "id": "pending_card",
+              "score": 0.11319871996352675
+            }
+          ]
+        },
+        {
+          "id": "t07",
+          "expected": "unknown_payment",
+          "hits": [
+            {
+              "id": "download_statement",
+              "score": 0.2183085660589386
+            },
+            {
+              "id": "unknown_payment",
+              "score": 0.17086345803645428
+            },
+            {
+              "id": "cash_missing",
+              "score": 0.12481701957015738
+            }
+          ]
+        },
+        {
+          "id": "t08",
+          "expected": "cash_fee",
+          "hits": [
+            {
+              "id": "pending_card",
+              "score": 0.12957193484643578
+            },
+            {
+              "id": "cash_missing",
+              "score": 0.10806335191079451
+            },
+            {
+              "id": "cash_fee",
+              "score": 0.09277906001235256
+            }
+          ]
+        },
+        {
+          "id": "t09",
+          "expected": "change_phone",
+          "hits": [
+            {
+              "id": "change_phone",
+              "score": 0.33422342148002027
+            },
+            {
+              "id": "download_statement",
+              "score": 0.11538041114208925
+            },
+            {
+              "id": "unknown_payment",
+              "score": 0.1015207647736697
+            }
+          ]
+        },
+        {
+          "id": "t10",
+          "expected": "forgot_pin",
+          "hits": [
+            {
+              "id": "forgot_pin",
+              "score": 0.2740545211974803
+            },
+            {
+              "id": "lost_card",
+              "score": 0.17577449657273586
+            },
+            {
+              "id": "change_phone",
+              "score": 0.14697855693529022
+            }
+          ]
+        },
+        {
+          "id": "t11",
+          "expected": "refund_status",
+          "hits": [
+            {
+              "id": "download_statement",
+              "score": 0.1912930374697937
+            },
+            {
+              "id": "cash_missing",
+              "score": 0.08525818523994994
+            },
+            {
+              "id": "refund_status",
+              "score": 0.08071671381999185
+            }
+          ]
+        },
+        {
+          "id": "t12",
+          "expected": "download_statement",
+          "hits": [
+            {
+              "id": "download_statement",
+              "score": 0.24613208580454182
+            },
+            {
+              "id": "cash_missing",
+              "score": 0.09481680591688818
+            },
+            {
+              "id": "pending_transfer",
+              "score": 0.07387552626961594
+            }
+          ]
+        },
+        {
+          "id": "t13",
+          "expected": "card_delivery",
+          "hits": [
+            {
+              "id": "card_delivery",
+              "score": 0.20152633928908492
+            },
+            {
+              "id": "pending_card",
+              "score": 0.11311860836275903
+            },
+            {
+              "id": "lost_card",
+              "score": 0.0931799800456948
+            }
+          ]
+        },
+        {
+          "id": "t14",
+          "expected": "failed_transfer",
+          "hits": [
+            {
+              "id": "failed_transfer",
+              "score": 0.3217637433089728
+            },
+            {
+              "id": "cash_missing",
+              "score": 0.19290075233481213
+            },
+            {
+              "id": "pending_transfer",
+              "score": 0.1468162565617638
+            }
+          ]
+        },
+        {
+          "id": "t15",
+          "expected": "unknown_payment",
+          "hits": [
+            {
+              "id": "unknown_payment",
+              "score": 0.3114854211103803
+            },
+            {
+              "id": "cash_missing",
+              "score": 0.0966457692374649
+            },
+            {
+              "id": "change_phone",
+              "score": 0.08252245101333767
+            }
+          ]
+        },
+        {
+          "id": "t16",
+          "expected": "cash_fee",
+          "hits": [
+            {
+              "id": "cash_fee",
+              "score": 0.3597796950478605
+            },
+            {
+              "id": "cash_missing",
+              "score": 0.25300797640865075
+            },
+            {
+              "id": "download_statement",
+              "score": 0.07271797932874562
+            }
+          ]
+        },
+        {
+          "id": "t17",
+          "expected": "change_phone",
+          "hits": [
+            {
+              "id": "change_phone",
+              "score": 0.3190636946209978
+            },
+            {
+              "id": "card_delivery",
+              "score": 0.0560122103915592
+            },
+            {
+              "id": "download_statement",
+              "score": 0.049385170900706675
+            }
+          ]
+        },
+        {
+          "id": "t18",
+          "expected": "refund_status",
+          "hits": [
+            {
+              "id": "refund_status",
+              "score": 0.4086486959719945
+            },
+            {
+              "id": "pending_card",
+              "score": 0.1864970114548033
+            },
+            {
+              "id": "pending_transfer",
+              "score": 0.08277117938401124
+            }
+          ]
+        },
+        {
+          "id": "t19",
+          "expected": null,
+          "hits": [
+            {
+              "id": "card_delivery",
+              "score": 0.10812855251641021
+            },
+            {
+              "id": "failed_transfer",
+              "score": 0.10463658439787123
+            },
+            {
+              "id": "pending_transfer",
+              "score": 0.09704270218793631
+            }
+          ]
+        },
+        {
+          "id": "t20",
+          "expected": null,
+          "hits": [
+            {
+              "id": "download_statement",
+              "score": 0.22061199493474465
+            },
+            {
+              "id": "cash_missing",
+              "score": 0.1164277975276333
+            },
+            {
+              "id": "lost_card",
+              "score": 0.05977627734509696
+            }
+          ]
+        },
+        {
+          "id": "t21",
+          "expected": null,
+          "hits": [
+            {
+              "id": "download_statement",
+              "score": 0.18783082883798335
+            },
+            {
+              "id": "cash_missing",
+              "score": 0.11203905650820455
+            },
+            {
+              "id": "pending_card",
+              "score": 0.04128014203344575
+            }
+          ]
+        },
+        {
+          "id": "t22",
+          "expected": null,
+          "hits": [
+            {
+              "id": "pending_transfer",
+              "score": 0.1609709503447666
+            },
+            {
+              "id": "pending_card",
+              "score": 0.1244707652044041
+            },
+            {
+              "id": "failed_transfer",
+              "score": 0.11073587724051046
+            }
+          ]
+        },
+        {
+          "id": "t23",
+          "expected": null,
+          "hits": [
+            {
+              "id": "card_delivery",
+              "score": 0.0
+            },
+            {
+              "id": "lost_card",
+              "score": 0.0
+            },
+            {
+              "id": "cash_missing",
+              "score": 0.0
+            }
+          ]
+        },
+        {
+          "id": "t24",
+          "expected": null,
+          "hits": [
+            {
+              "id": "card_delivery",
+              "score": 0.0
+            },
+            {
+              "id": "lost_card",
+              "score": 0.0
+            },
+            {
+              "id": "cash_missing",
+              "score": 0.0
+            }
+          ]
+        }
+      ]
+    },
+    "dense": {
+      "threshold_selected_on_dev": 0.379157193005085,
+      "supported_questions": 18,
+      "recall_at_1": 1.0,
+      "recall_at_3": 1.0,
+      "mrr_at_3": 1.0,
+      "answerability_accuracy": 1.0,
+      "unsupported_rejection_rate": 1.0,
+      "supported_acceptance_rate": 1.0,
+      "predictions": [
+        {
+          "id": "t01",
+          "expected": "card_delivery",
+          "hits": [
+            {
+              "id": "card_delivery",
+              "score": 0.6219841837882996
+            },
+            {
+              "id": "pending_card",
+              "score": 0.5230259895324707
+            },
+            {
+              "id": "forgot_pin",
+              "score": 0.46058231592178345
+            }
+          ]
+        },
+        {
+          "id": "t02",
+          "expected": "lost_card",
+          "hits": [
+            {
+              "id": "lost_card",
+              "score": 0.6264380216598511
+            },
+            {
+              "id": "forgot_pin",
+              "score": 0.48825258016586304
+            },
+            {
+              "id": "unknown_payment",
+              "score": 0.4829559326171875
+            }
+          ]
+        },
+        {
+          "id": "t03",
+          "expected": "cash_missing",
+          "hits": [
+            {
+              "id": "cash_missing",
+              "score": 0.5314860343933105
+            },
+            {
+              "id": "unknown_payment",
+              "score": 0.37931370735168457
+            },
+            {
+              "id": "cash_fee",
+              "score": 0.36053138971328735
+            }
+          ]
+        },
+        {
+          "id": "t04",
+          "expected": "pending_card",
+          "hits": [
+            {
+              "id": "pending_card",
+              "score": 0.6516807079315186
+            },
+            {
+              "id": "lost_card",
+              "score": 0.4998069703578949
+            },
+            {
+              "id": "card_delivery",
+              "score": 0.4940532445907593
+            }
+          ]
+        },
+        {
+          "id": "t05",
+          "expected": "pending_transfer",
+          "hits": [
+            {
+              "id": "pending_transfer",
+              "score": 0.6659396886825562
+            },
+            {
+              "id": "failed_transfer",
+              "score": 0.612411379814148
+            },
+            {
+              "id": "refund_status",
+              "score": 0.427350252866745
+            }
+          ]
+        },
+        {
+          "id": "t06",
+          "expected": "failed_transfer",
+          "hits": [
+            {
+              "id": "failed_transfer",
+              "score": 0.48650363087654114
+            },
+            {
+              "id": "pending_transfer",
+              "score": 0.38332074880599976
+            },
+            {
+              "id": "change_phone",
+              "score": 0.31427061557769775
+            }
+          ]
+        },
+        {
+          "id": "t07",
+          "expected": "unknown_payment",
+          "hits": [
+            {
+              "id": "unknown_payment",
+              "score": 0.5556434988975525
+            },
+            {
+              "id": "forgot_pin",
+              "score": 0.49703434109687805
+            },
+            {
+              "id": "lost_card",
+              "score": 0.48492521047592163
+            }
+          ]
+        },
+        {
+          "id": "t08",
+          "expected": "cash_fee",
+          "hits": [
+            {
+              "id": "cash_fee",
+              "score": 0.5033265352249146
+            },
+            {
+              "id": "cash_missing",
+              "score": 0.4828675389289856
+            },
+            {
+              "id": "refund_status",
+              "score": 0.24403420090675354
+            }
+          ]
+        },
+        {
+          "id": "t09",
+          "expected": "change_phone",
+          "hits": [
+            {
+              "id": "change_phone",
+              "score": 0.6860395669937134
+            },
+            {
+              "id": "lost_card",
+              "score": 0.2904638946056366
+            },
+            {
+              "id": "forgot_pin",
+              "score": 0.25315046310424805
+            }
+          ]
+        },
+        {
+          "id": "t10",
+          "expected": "forgot_pin",
+          "hits": [
+            {
+              "id": "forgot_pin",
+              "score": 0.7594400644302368
+            },
+            {
+              "id": "lost_card",
+              "score": 0.5504371523857117
+            },
+            {
+              "id": "unknown_payment",
+              "score": 0.482657253742218
+            }
+          ]
+        },
+        {
+          "id": "t11",
+          "expected": "refund_status",
+          "hits": [
+            {
+              "id": "refund_status",
+              "score": 0.6449079513549805
+            },
+            {
+              "id": "card_delivery",
+              "score": 0.45293766260147095
+            },
+            {
+              "id": "unknown_payment",
+              "score": 0.3841056227684021
+            }
+          ]
+        },
+        {
+          "id": "t12",
+          "expected": "download_statement",
+          "hits": [
+            {
+              "id": "download_statement",
+              "score": 0.6899800300598145
+            },
+            {
+              "id": "refund_status",
+              "score": 0.37477079033851624
+            },
+            {
+              "id": "cash_fee",
+              "score": 0.2858128547668457
+            }
+          ]
+        },
+        {
+          "id": "t13",
+          "expected": "card_delivery",
+          "hits": [
+            {
+              "id": "card_delivery",
+              "score": 0.6803292036056519
+            },
+            {
+              "id": "lost_card",
+              "score": 0.5138582587242126
+            },
+            {
+              "id": "forgot_pin",
+              "score": 0.49642103910446167
+            }
+          ]
+        },
+        {
+          "id": "t14",
+          "expected": "failed_transfer",
+          "hits": [
+            {
+              "id": "failed_transfer",
+              "score": 0.7392897605895996
+            },
+            {
+              "id": "refund_status",
+              "score": 0.4651760160923004
+            },
+            {
+              "id": "pending_transfer",
+              "score": 0.4648182988166809
+            }
+          ]
+        },
+        {
+          "id": "t15",
+          "expected": "unknown_payment",
+          "hits": [
+            {
+              "id": "unknown_payment",
+              "score": 0.5681821703910828
+            },
+            {
+              "id": "lost_card",
+              "score": 0.5454771518707275
+            },
+            {
+              "id": "forgot_pin",
+              "score": 0.5193164944648743
+            }
+          ]
+        },
+        {
+          "id": "t16",
+          "expected": "cash_fee",
+          "hits": [
+            {
+              "id": "cash_fee",
+              "score": 0.643112301826477
+            },
+            {
+              "id": "cash_missing",
+              "score": 0.4560771584510803
+            },
+            {
+              "id": "unknown_payment",
+              "score": 0.34380245208740234
+            }
+          ]
+        },
+        {
+          "id": "t17",
+          "expected": "change_phone",
+          "hits": [
+            {
+              "id": "change_phone",
+              "score": 0.733164370059967
+            },
+            {
+              "id": "lost_card",
+              "score": 0.3138049840927124
+            },
+            {
+              "id": "forgot_pin",
+              "score": 0.24187156558036804
+            }
+          ]
+        },
+        {
+          "id": "t18",
+          "expected": "refund_status",
+          "hits": [
+            {
+              "id": "refund_status",
+              "score": 0.6076043844223022
+            },
+            {
+              "id": "unknown_payment",
+              "score": 0.3647279739379883
+            },
+            {
+              "id": "failed_transfer",
+              "score": 0.3363192081451416
+            }
+          ]
+        },
+        {
+          "id": "t19",
+          "expected": null,
+          "hits": [
+            {
+              "id": "cash_fee",
+              "score": 0.10474665462970734
+            },
+            {
+              "id": "failed_transfer",
+              "score": 0.039780113846063614
+            },
+            {
+              "id": "change_phone",
+              "score": 0.007823711261153221
+            }
+          ]
+        },
+        {
+          "id": "t20",
+          "expected": null,
+          "hits": [
+            {
+              "id": "download_statement",
+              "score": 0.12503474950790405
+            },
+            {
+              "id": "cash_fee",
+              "score": 0.08639907836914062
+            },
+            {
+              "id": "pending_transfer",
+              "score": 0.07442644983530045
+            }
+          ]
+        },
+        {
+          "id": "t21",
+          "expected": null,
+          "hits": [
+            {
+              "id": "card_delivery",
+              "score": 0.06929730623960495
+            },
+            {
+              "id": "lost_card",
+              "score": 0.06841155141592026
+            },
+            {
+              "id": "forgot_pin",
+              "score": 0.01207865122705698
+            }
+          ]
+        },
+        {
+          "id": "t22",
+          "expected": null,
+          "hits": [
+            {
+              "id": "card_delivery",
+              "score": 0.051850732415914536
+            },
+            {
+              "id": "lost_card",
+              "score": 0.04892559349536896
+            },
+            {
+              "id": "pending_card",
+              "score": 0.04409347102046013
+            }
+          ]
+        },
+        {
+          "id": "t23",
+          "expected": null,
+          "hits": [
+            {
+              "id": "lost_card",
+              "score": 0.08848569542169571
+            },
+            {
+              "id": "change_phone",
+              "score": 0.06876520812511444
+            },
+            {
+              "id": "forgot_pin",
+              "score": 0.05640765279531479
+            }
+          ]
+        },
+        {
+          "id": "t24",
+          "expected": null,
+          "hits": [
+            {
+              "id": "lost_card",
+              "score": 0.08470702916383743
+            },
+            {
+              "id": "change_phone",
+              "score": 0.06050067022442818
+            },
+            {
+              "id": "card_delivery",
+              "score": 0.05223691463470459
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "generation": {
+    "plain": {
+      "keyword_coverage_rate_on_supported": 0.6666666666666666,
+      "quote_fallback_count": 18,
+      "verbatim_generation_count": 0,
+      "predictions": [
+        {
+          "id": "t01",
+          "question": "The debit card I ordered is still missing in the post. Where is the delivery status?",
+          "expected_document": "card_delivery",
+          "keyword_coverage_pass": true,
+          "answer": "For a card that has not arrived, open Cards, select the ordered card, then choose Track delivery. If the tracking page has no delivery estimate, contact support through the app chat.",
+          "abstained": false,
+          "sources": [
+            {
+              "id": "card_delivery",
+              "title": "Track a card delivery",
+              "text": "For a card that has not arrived, open Cards, select the ordered card, then choose Track delivery. If the tracking page has no delivery estimate, contact support through the app chat.",
+              "score": 0.6219841837882996
+            }
+          ],
+          "mode": "retrieved_quote",
+          "raw_generation": "If your debit card order is still missing and you are unable to track its delivery status via the app, it's important to reach out to our customer service team for assistance. They can provide you with the most up-to-date information about the delivery status of your order. Please feel free to contact us at [customer_service_email] or call [customer_service_phone] to schedule an appointment with one of our representatives."
+        },
+        {
+          "id": "t02",
+          "question": "My wallet was stolen along with my card. How can I stop anyone using it?",
+          "expected_document": "lost_card",
+          "keyword_coverage_pass": false,
+          "answer": "If a card is lost or stolen, freeze the card immediately in Cards. Then choose Replace card to order a replacement. Never share your PIN or security code in the support chat.",
+          "abstained": false,
+          "sources": [
+            {
+              "id": "lost_card",
+              "title": "Lost or stolen card",
+              "text": "If a card is lost or stolen, freeze the card immediately in Cards. Then choose Replace card to order a replacement. Never share your PIN or security code in the support chat.",
+              "score": 0.6264380216598511
+            }
+          ],
+          "mode": "retrieved_quote",
+          "raw_generation": "If you have lost or stolen your wallet and your card, here are some steps you can take to prevent others from accessing your financial information:\n\n1. **Contact Your Bank**: Reach out to your bank as soon as possible. They will be able to provide immediate assistance and help you process a new card if necessary.\n\n2. **Change Passwords**: Change all passwords for any accounts that were compromised. This includes your email, social media accounts, and other online services where sensitive information"
+        },
+        {
+          "id": "t03",
+          "question": "The cash machine charged me but no banknotes came out. What should I do?",
+          "expected_document": "cash_missing",
+          "keyword_coverage_pass": true,
+          "answer": "If an ATM debited your account but did not dispense cash, open the withdrawal in Transactions and choose Report ATM issue. Include the ATM location and withdrawal time. Do not retry the withdrawal to resolve the missing cash.",
+          "abstained": false,
+          "sources": [
+            {
+              "id": "cash_missing",
+              "title": "ATM did not dispense cash",
+              "text": "If an ATM debited your account but did not dispense cash, open the withdrawal in Transactions and choose Report ATM issue. Include the ATM location and withdrawal time. Do not retry the withdrawal to resolve the missing cash.",
+              "score": 0.5314860343933105
+            }
+          ],
+          "mode": "retrieved_quote",
+          "raw_generation": "If you have already opened a transaction for the ATM and it has been reported as a missing cash issue, follow these steps:\n\n1. **Check Your Account Balance**: Ensure that there are sufficient funds in your account before attempting to withdraw cash from the ATM.\n2. **Contact the ATM Service**: Reach out to the customer service representative at the ATM to report the issue. They can provide guidance on how to proceed.\n3. **Report the Issue**: Once the representative confirms that there"
+        },
+        {
+          "id": "t04",
+          "question": "The store cancelled my order but the card authorization is still pending. Who can cancel it?",
+          "expected_document": "pending_card",
+          "keyword_coverage_pass": true,
+          "answer": "A pending card payment is a merchant authorization and has not settled. Open the payment in Transactions to view its status. Ask the merchant to cancel the authorization if the purchase was cancelled; contact support if you need help checking the status.",
+          "abstained": false,
+          "sources": [
+            {
+              "id": "pending_card",
+              "title": "Card payment is pending",
+              "text": "A pending card payment is a merchant authorization and has not settled. Open the payment in Transactions to view its status. Ask the merchant to cancel the authorization if the purchase was cancelled; contact support if you need help checking the status.",
+              "score": 0.6516807079315186
+            }
+          ],
+          "mode": "retrieved_quote",
+          "raw_generation": "If your pending card payment for an order has been canceled, the next step would be to contact the merchant who made the payment or their customer service team. They will likely provide instructions on how to proceed with cancelling the authorization. If you are unable to reach them directly, you may also consider reaching out to the bank that issued the card (if applicable) or contacting the merchant's account management department for assistance."
+        },
+        {
+          "id": "t05",
+          "question": "A bank transfer is stuck and has not reached the recipient. How do I check its progress?",
+          "expected_document": "pending_transfer",
+          "keyword_coverage_pass": false,
+          "answer": "For a pending bank transfer, open Transfers and select the transfer to check its status. Verify the recipient details. If the details are correct and you still need help, share the transfer reference with support through the app chat.",
+          "abstained": false,
+          "sources": [
+            {
+              "id": "pending_transfer",
+              "title": "Bank transfer is pending",
+              "text": "For a pending bank transfer, open Transfers and select the transfer to check its status. Verify the recipient details. If the details are correct and you still need help, share the transfer reference with support through the app chat.",
+              "score": 0.6659396886825562
+            }
+          ],
+          "mode": "retrieved_quote",
+          "raw_generation": "To check the progress of a bank transfer that has been stuck, follow these steps:\n\n1. **Open Your Transfer**: Go to your Transfer section in the app.\n2. **Select the Transfer**: Find the transfer you want to track and click on it.\n3. **Check Status**: Look for an \"Status\" or \"Progress\" tab within the transfer details. This will show you the current status of the transfer, including any delays or issues.\n4. **Verify Details"
+        },
+        {
+          "id": "t06",
+          "question": "The transfer was rejected because the beneficiary details are wrong. What is the next step?",
+          "expected_document": "failed_transfer",
+          "keyword_coverage_pass": false,
+          "answer": "For a failed bank transfer, open Transfers and read the failure reason. Correct the recipient details before sending again. If the balance has not been restored, contact support with the transfer reference.",
+          "abstained": false,
+          "sources": [
+            {
+              "id": "failed_transfer",
+              "title": "Bank transfer failed",
+              "text": "For a failed bank transfer, open Transfers and read the failure reason. Correct the recipient details before sending again. If the balance has not been restored, contact support with the transfer reference.",
+              "score": 0.48650363087654114
+            }
+          ],
+          "mode": "retrieved_quote",
+          "raw_generation": "To resolve the issue of a rejected transfer due to incorrect beneficiary details, follow these steps:\n\n1. **Review the Transfer Details**: Ensure that all necessary information such as the beneficiary's name, address, and any other relevant details (such as account number) is correct.\n2. **Check for Errors in the Transfer Form**: Verify that there are no errors or typos in the form used for the transfer.\n3. **Contact Support**: If the problem persists after reviewing the details"
+        },
+        {
+          "id": "t07",
+          "question": "There is an unfamiliar card transaction in my account. How do I flag it?",
+          "expected_document": "unknown_payment",
+          "keyword_coverage_pass": false,
+          "answer": "If you do not recognize a card payment, freeze the card first. Open the payment in Transactions and choose Report unrecognized payment. Provide the transaction reference through the app chat; never send your full card number.",
+          "abstained": false,
+          "sources": [
+            {
+              "id": "unknown_payment",
+              "title": "Unrecognized card payment",
+              "text": "If you do not recognize a card payment, freeze the card first. Open the payment in Transactions and choose Report unrecognized payment. Provide the transaction reference through the app chat; never send your full card number.",
+              "score": 0.5556434988975525
+            }
+          ],
+          "mode": "retrieved_quote",
+          "raw_generation": "To flag an unfamiliar card transaction in your account, follow these steps:\n\n1. **Open the Payment**: First, open the payment in the Transactions section of your bank's mobile app or website.\n\n2. **Select the Transaction**: Look for the transaction that seems unusual to you. This could be due to various reasons such as fraud, unauthorized transactions, or issues with the card itself.\n\n3. **Report the Unusual Transaction**:\n   - Click on the \"Report\" button"
+        },
+        {
+          "id": "t08",
+          "question": "Why was I charged for taking out cash? Where is the breakdown?",
+          "expected_document": "cash_fee",
+          "keyword_coverage_pass": true,
+          "answer": "To check a cash withdrawal fee, open the withdrawal in Transactions and read Fee details. The app shows the applied fee and the ATM operator charge separately. This knowledge base does not specify fee amounts or free withdrawal limits.",
+          "abstained": false,
+          "sources": [
+            {
+              "id": "cash_fee",
+              "title": "Check a cash withdrawal fee",
+              "text": "To check a cash withdrawal fee, open the withdrawal in Transactions and read Fee details. The app shows the applied fee and the ATM operator charge separately. This knowledge base does not specify fee amounts or free withdrawal limits.",
+              "score": 0.5033265352249146
+            }
+          ],
+          "mode": "retrieved_quote",
+          "raw_generation": "You were charged for taking out cash because the transaction was processed through an ATM (Automated Teller Machine). When you withdraw money from an ATM, it charges a fee to cover various operational costs such as handling fees, maintenance fees, and administrative expenses. These fees are typically calculated based on the amount of money withdrawn and may vary depending on your location and the specific ATM you use.\n\nThe breakdown of the fee can be found in the \"Fee Details\" section within the Transaction screen"
+        },
+        {
+          "id": "t09",
+          "question": "I have a new mobile number. Where do I change the one registered to my account?",
+          "expected_document": "change_phone",
+          "keyword_coverage_pass": true,
+          "answer": "To change your registered phone number, open Profile, then Personal details, then Phone number. Complete the identity verification shown in the app. If you cannot access your old number, choose I cannot access this number to contact support.",
+          "abstained": false,
+          "sources": [
+            {
+              "id": "change_phone",
+              "title": "Change the registered phone number",
+              "text": "To change your registered phone number, open Profile, then Personal details, then Phone number. Complete the identity verification shown in the app. If you cannot access your old number, choose I cannot access this number to contact support.",
+              "score": 0.6860395669937134
+            }
+          ],
+          "mode": "retrieved_quote",
+          "raw_generation": "To change your new mobile number that has been registered to your account, follow these steps:\n\n1. **Open Profile**: Log into your My Account section.\n2. **Personal Details**: Navigate to the \"Personal details\" section within the profile page.\n3. **Phone Number**: Locate and select the phone number you wish to change from the list of registered numbers.\n4. **Identity Verification**: Complete the identity verification process as described in the app. This typically involves providing proof of"
+        },
+        {
+          "id": "t10",
+          "question": "I cannot remember my card PIN. Can I see it in the application?",
+          "expected_document": "forgot_pin",
+          "keyword_coverage_pass": true,
+          "answer": "If you forgot a card PIN, open Cards, select the card, and choose View PIN. Complete the app authentication. Support will never ask you to send or read out the PIN.",
+          "abstained": false,
+          "sources": [
+            {
+              "id": "forgot_pin",
+              "title": "View a forgotten card PIN",
+              "text": "If you forgot a card PIN, open Cards, select the card, and choose View PIN. Complete the app authentication. Support will never ask you to send or read out the PIN.",
+              "score": 0.7594400644302368
+            }
+          ],
+          "mode": "retrieved_quote",
+          "raw_generation": "Yes, you can view your card PIN in the application. To do this:\n\n1. Open the Cards app on your device.\n2. Select the card that contains your PIN.\n3. Choose \"View PIN\" from the options available.\n\nThis will display the current PIN for the selected card. Remember, if you forget your PIN, you can use this feature to reset it by following the steps provided in the reference notes."
+        },
+        {
+          "id": "t11",
+          "question": "The shop says it refunded my purchase. Where do I check whether it reached my account?",
+          "expected_document": "refund_status",
+          "keyword_coverage_pass": true,
+          "answer": "To track a merchant refund, open the original purchase in Transactions and check the refund status. If the merchant confirms a refund that is not visible, contact support with the merchant refund reference. This knowledge base does not promise a refund deadline.",
+          "abstained": false,
+          "sources": [
+            {
+              "id": "refund_status",
+              "title": "Track a merchant refund",
+              "text": "To track a merchant refund, open the original purchase in Transactions and check the refund status. If the merchant confirms a refund that is not visible, contact support with the merchant refund reference. This knowledge base does not promise a refund deadline.",
+              "score": 0.6449079513549805
+            }
+          ],
+          "mode": "retrieved_quote",
+          "raw_generation": "To verify if your purchase was successfully refunded to your account, you can follow these steps:\n\n1. **Check Your Account**: Log into your bank account or financial management system where your transactions are recorded.\n2. **Review Your Transaction History**: Look for any updates or notifications related to your purchase. You might see a message indicating that your transaction has been processed and a confirmation of the refund.\n3. **Verify the Refund Status**: Open the original purchase in your transactions section and"
+        },
+        {
+          "id": "t12",
+          "question": "I need a PDF showing my account transactions for last month. Where do I get a statement?",
+          "expected_document": "download_statement",
+          "keyword_coverage_pass": true,
+          "answer": "To download an account statement, open Accounts, select the account, choose Statements, then select a date range and Download PDF. Keep the document private because it contains personal account information.",
+          "abstained": false,
+          "sources": [
+            {
+              "id": "download_statement",
+              "title": "Download an account statement",
+              "text": "To download an account statement, open Accounts, select the account, choose Statements, then select a date range and Download PDF. Keep the document private because it contains personal account information.",
+              "score": 0.6899800300598145
+            }
+          ],
+          "mode": "retrieved_quote",
+          "raw_generation": "To obtain a PDF showing your account transactions for the last month, you should follow these steps:\n\n1. **Open Your Account**: Log in to your bank's online banking or mobile app.\n2. **Select the Account**: Choose the account that has the transactions you want to view.\n3. **Choose Statements**: Go to the \"Statements\" section within the account management menu.\n4. **Set Date Range**: Select a specific date range (e.g., last month) from"
+        },
+        {
+          "id": "t13",
+          "question": "There is no estimated arrival date for my new card. How should I contact someone?",
+          "expected_document": "card_delivery",
+          "keyword_coverage_pass": false,
+          "answer": "For a card that has not arrived, open Cards, select the ordered card, then choose Track delivery. If the tracking page has no delivery estimate, contact support through the app chat.",
+          "abstained": false,
+          "sources": [
+            {
+              "id": "card_delivery",
+              "title": "Track a card delivery",
+              "text": "For a card that has not arrived, open Cards, select the ordered card, then choose Track delivery. If the tracking page has no delivery estimate, contact support through the app chat.",
+              "score": 0.6803292036056519
+            }
+          ],
+          "mode": "retrieved_quote",
+          "raw_generation": "If you are unable to track your card's delivery due to an empty tracking page or no delivery estimate available, it might be helpful to reach out to our customer service team via phone or email. They can provide more specific guidance on how to proceed with your order and ensure your card arrives as soon as possible."
+        },
+        {
+          "id": "t14",
+          "question": "My transfer failed and the money did not return to my balance. What reference should I give support?",
+          "expected_document": "failed_transfer",
+          "keyword_coverage_pass": true,
+          "answer": "For a failed bank transfer, open Transfers and read the failure reason. Correct the recipient details before sending again. If the balance has not been restored, contact support with the transfer reference.",
+          "abstained": false,
+          "sources": [
+            {
+              "id": "failed_transfer",
+              "title": "Bank transfer failed",
+              "text": "For a failed bank transfer, open Transfers and read the failure reason. Correct the recipient details before sending again. If the balance has not been restored, contact support with the transfer reference.",
+              "score": 0.7392897605895996
+            }
+          ],
+          "mode": "retrieved_quote",
+          "raw_generation": "If your transfer was unsuccessful and the funds have not returned to your account, you should provide the following reference:\n\n1. **Transfer Reference**: This is typically provided by the original sender or the bank that processed the transaction.\n2. **Recipient Details**: Provide the full name of the person or entity who received the funds. Include their address if possible.\n3. **Amount Received**: Mention the amount of money transferred from your account to the recipient's account.\n4. **Transaction Date"
+        },
+        {
+          "id": "t15",
+          "question": "How do I report an unauthorized purchase without sharing my full card number?",
+          "expected_document": "unknown_payment",
+          "keyword_coverage_pass": true,
+          "answer": "If you do not recognize a card payment, freeze the card first. Open the payment in Transactions and choose Report unrecognized payment. Provide the transaction reference through the app chat; never send your full card number.",
+          "abstained": false,
+          "sources": [
+            {
+              "id": "unknown_payment",
+              "title": "Unrecognized card payment",
+              "text": "If you do not recognize a card payment, freeze the card first. Open the payment in Transactions and choose Report unrecognized payment. Provide the transaction reference through the app chat; never send your full card number.",
+              "score": 0.5681821703910828
+            }
+          ],
+          "mode": "retrieved_quote",
+          "raw_generation": "To report an unauthorized purchase without sharing your full card number, follow these steps:\n\n1. **Open the Payment**: First, open the payment that was flagged as unauthorized by the system.\n\n2. **Select 'Report Unrecognized Payment'**: In the top menu of the payment screen, select 'Report Unrecognized Payment'.\n\n3. **Provide Transaction Reference**: When prompted to provide a transaction reference, enter it directly into the text box provided. This is crucial for verifying the transaction details"
+        },
+        {
+          "id": "t16",
+          "question": "The ATM withdrawal has an unexpected charge. How do I see the operator fee?",
+          "expected_document": "cash_fee",
+          "keyword_coverage_pass": true,
+          "answer": "To check a cash withdrawal fee, open the withdrawal in Transactions and read Fee details. The app shows the applied fee and the ATM operator charge separately. This knowledge base does not specify fee amounts or free withdrawal limits.",
+          "abstained": false,
+          "sources": [
+            {
+              "id": "cash_fee",
+              "title": "Check a cash withdrawal fee",
+              "text": "To check a cash withdrawal fee, open the withdrawal in Transactions and read Fee details. The app shows the applied fee and the ATM operator charge separately. This knowledge base does not specify fee amounts or free withdrawal limits.",
+              "score": 0.643112301826477
+            }
+          ],
+          "mode": "retrieved_quote",
+          "raw_generation": "To view the operator's fee for the ATM withdrawal, follow these steps:\n\n1. **Open the Transaction Details**: Go to the \"Transactions\" section on your device.\n2. **Select the Withdrawal**: Locate the withdrawal you want to review. It should be listed under the \"Withdrawals\" tab.\n3. **Read the Fee Details**: Look for the \"Fee\" field within the transaction details. This will provide you with the applied fee amount along with any applicable ATM"
+        },
+        {
+          "id": "t17",
+          "question": "I no longer have my old phone number. How can I get help changing it?",
+          "expected_document": "change_phone",
+          "keyword_coverage_pass": false,
+          "answer": "To change your registered phone number, open Profile, then Personal details, then Phone number. Complete the identity verification shown in the app. If you cannot access your old number, choose I cannot access this number to contact support.",
+          "abstained": false,
+          "sources": [
+            {
+              "id": "change_phone",
+              "title": "Change the registered phone number",
+              "text": "To change your registered phone number, open Profile, then Personal details, then Phone number. Complete the identity verification shown in the app. If you cannot access your old number, choose I cannot access this number to contact support.",
+              "score": 0.733164370059967
+            }
+          ],
+          "mode": "retrieved_quote",
+          "raw_generation": "To get help changing your phone number, follow these steps:\n\n1. **Open Profile**: Go back to your profile page and select \"Personal Details\" from the left-hand menu.\n2. **Change Your Registered Phone Number**: Click on \"Phone number\" to view your current phone number information.\n3. **Complete Identity Verification**: Ensure that you are verified by clicking on the \"Verify\" button next to your phone number. This will provide a confirmation of your identity.\n4."
+        },
+        {
+          "id": "t18",
+          "question": "A merchant refund is missing even though the merchant confirmed it. Which reference do I need?",
+          "expected_document": "refund_status",
+          "keyword_coverage_pass": true,
+          "answer": "To track a merchant refund, open the original purchase in Transactions and check the refund status. If the merchant confirms a refund that is not visible, contact support with the merchant refund reference. This knowledge base does not promise a refund deadline.",
+          "abstained": false,
+          "sources": [
+            {
+              "id": "refund_status",
+              "title": "Track a merchant refund",
+              "text": "To track a merchant refund, open the original purchase in Transactions and check the refund status. If the merchant confirms a refund that is not visible, contact support with the merchant refund reference. This knowledge base does not promise a refund deadline.",
+              "score": 0.6076043844223022
+            }
+          ],
+          "mode": "retrieved_quote",
+          "raw_generation": "To resolve this issue, you should use the \"merchant_refund_reference\" as your reference. This will help you track down the specific transaction or order where the merchant has confirmed a refund but the system is unable to display it due to an error."
+        },
+        {
+          "id": "t19",
+          "question": "How much can I borrow for a home loan?",
+          "expected_document": null,
+          "keyword_coverage_pass": false,
+          "answer": "This demo knowledge base does not cover the question. Please contact support.",
+          "abstained": true,
+          "sources": [],
+          "mode": "abstained"
+        },
+        {
+          "id": "t20",
+          "question": "Which stocks should I buy in my investment account?",
+          "expected_document": null,
+          "keyword_coverage_pass": false,
+          "answer": "This demo knowledge base does not cover the question. Please contact support.",
+          "abstained": true,
+          "sources": [],
+          "mode": "abstained"
+        },
+        {
+          "id": "t21",
+          "question": "Write a JavaScript function to sort an array.",
+          "expected_document": null,
+          "keyword_coverage_pass": false,
+          "answer": "This demo knowledge base does not cover the question. Please contact support.",
+          "abstained": true,
+          "sources": [],
+          "mode": "abstained"
+        },
+        {
+          "id": "t22",
+          "question": "What is the weather forecast for tomorrow?",
+          "expected_document": null,
+          "keyword_coverage_pass": false,
+          "answer": "This demo knowledge base does not cover the question. Please contact support.",
+          "abstained": true,
+          "sources": [],
+          "mode": "abstained"
+        },
+        {
+          "id": "t23",
+          "question": "Give me a chocolate cake recipe.",
+          "expected_document": null,
+          "keyword_coverage_pass": false,
+          "answer": "This demo knowledge base does not cover the question. Please contact support.",
+          "abstained": true,
+          "sources": [],
+          "mode": "abstained"
+        },
+        {
+          "id": "t24",
+          "question": "Translate a poem into Spanish.",
+          "expected_document": null,
+          "keyword_coverage_pass": false,
+          "answer": "This demo knowledge base does not cover the question. Please contact support.",
+          "abstained": true,
+          "sources": [],
+          "mode": "abstained"
+        }
+      ]
+    },
+    "grounded": {
+      "keyword_coverage_rate_on_supported": 0.8333333333333334,
+      "quote_fallback_count": 18,
+      "verbatim_generation_count": 0,
+      "predictions": [
+        {
+          "id": "t01",
+          "question": "The debit card I ordered is still missing in the post. Where is the delivery status?",
+          "expected_document": "card_delivery",
+          "keyword_coverage_pass": true,
+          "answer": "For a card that has not arrived, open Cards, select the ordered card, then choose Track delivery. If the tracking page has no delivery estimate, contact support through the app chat.",
+          "abstained": false,
+          "sources": [
+            {
+              "id": "card_delivery",
+              "title": "Track a card delivery",
+              "text": "For a card that has not arrived, open Cards, select the ordered card, then choose Track delivery. If the tracking page has no delivery estimate, contact support through the app chat.",
+              "score": 0.6219841837882996
+            }
+          ],
+          "mode": "retrieved_quote",
+          "raw_generation": "If the debit card you ordered is still missing in the post, it indicates that the tracking page does not have a delivery estimate at this time. You should check the app's chat for any updates on the delivery status."
+        },
+        {
+          "id": "t02",
+          "question": "My wallet was stolen along with my card. How can I stop anyone using it?",
+          "expected_document": "lost_card",
+          "keyword_coverage_pass": true,
+          "answer": "If a card is lost or stolen, freeze the card immediately in Cards. Then choose Replace card to order a replacement. Never share your PIN or security code in the support chat.",
+          "abstained": false,
+          "sources": [
+            {
+              "id": "lost_card",
+              "title": "Lost or stolen card",
+              "text": "If a card is lost or stolen, freeze the card immediately in Cards. Then choose Replace card to order a replacement. Never share your PIN or security code in the support chat.",
+              "score": 0.6264380216598511
+            }
+          ],
+          "mode": "retrieved_quote",
+          "raw_generation": "To prevent others from accessing your stolen card, follow these steps:\n\n1. **Freeze the Card**: Immediately freeze the card by selecting \"Replace card\" in the Cards section of the FICTIONAL demo bank.\n2. **Secure Your Wallet**: Ensure that all sensitive information about your card and wallet is securely stored. This includes keeping copies of important documents like your passport, driver's license, and credit cards.\n3. **Contact Creditors**: Reach out to your creditors ("
+        },
+        {
+          "id": "t03",
+          "question": "The cash machine charged me but no banknotes came out. What should I do?",
+          "expected_document": "cash_missing",
+          "keyword_coverage_pass": false,
+          "answer": "If an ATM debited your account but did not dispense cash, open the withdrawal in Transactions and choose Report ATM issue. Include the ATM location and withdrawal time. Do not retry the withdrawal to resolve the missing cash.",
+          "abstained": false,
+          "sources": [
+            {
+              "id": "cash_missing",
+              "title": "ATM did not dispense cash",
+              "text": "If an ATM debited your account but did not dispense cash, open the withdrawal in Transactions and choose Report ATM issue. Include the ATM location and withdrawal time. Do not retry the withdrawal to resolve the missing cash.",
+              "score": 0.5314860343933105
+            }
+          ],
+          "mode": "retrieved_quote",
+          "raw_generation": "If the cash machine charged you but no banknotes were dispensed, follow these steps:\n\n1. **Check Your Account Balance**: Ensure that there is sufficient balance in your account.\n2. **Review Transaction History**: Look at the transaction history on your bank statement to see if there was any error or discrepancy with the ATM transaction.\n3. **Contact Support**: Contact your financial institution's customer service for assistance. They can provide guidance on resolving issues with the ATM.\n4. **"
+        },
+        {
+          "id": "t04",
+          "question": "The store cancelled my order but the card authorization is still pending. Who can cancel it?",
+          "expected_document": "pending_card",
+          "keyword_coverage_pass": true,
+          "answer": "A pending card payment is a merchant authorization and has not settled. Open the payment in Transactions to view its status. Ask the merchant to cancel the authorization if the purchase was cancelled; contact support if you need help checking the status.",
+          "abstained": false,
+          "sources": [
+            {
+              "id": "pending_card",
+              "title": "Card payment is pending",
+              "text": "A pending card payment is a merchant authorization and has not settled. Open the payment in Transactions to view its status. Ask the merchant to cancel the authorization if the purchase was cancelled; contact support if you need help checking the status.",
+              "score": 0.6516807079315186
+            }
+          ],
+          "mode": "retrieved_quote",
+          "raw_generation": "If the card authorization is still pending, the most appropriate person to handle this would be the merchant who originally authorized the transaction. They should contact the merchant to either cancel the authorization or provide an explanation for why the transaction was canceled. If the merchant cannot resolve the issue, they may need to escalate the matter to their supervisor or another department within the business."
+        },
+        {
+          "id": "t05",
+          "question": "A bank transfer is stuck and has not reached the recipient. How do I check its progress?",
+          "expected_document": "pending_transfer",
+          "keyword_coverage_pass": true,
+          "answer": "For a pending bank transfer, open Transfers and select the transfer to check its status. Verify the recipient details. If the details are correct and you still need help, share the transfer reference with support through the app chat.",
+          "abstained": false,
+          "sources": [
+            {
+              "id": "pending_transfer",
+              "title": "Bank transfer is pending",
+              "text": "For a pending bank transfer, open Transfers and select the transfer to check its status. Verify the recipient details. If the details are correct and you still need help, share the transfer reference with support through the app chat.",
+              "score": 0.6659396886825562
+            }
+          ],
+          "mode": "retrieved_quote",
+          "raw_generation": "To check the progress of a pending bank transfer, follow these steps:\n\n1. Open the \"Transfers\" section on your FICTIONAL demo bank.\n2. Locate the transfer you want to review.\n3. Click on the \"Status\" tab at the top right corner of the screen.\n4. You will see an indication of where the transfer is currently located, including whether it's pending, confirmed, or failed.\n5. If the transfer is pending, you can view"
+        },
+        {
+          "id": "t06",
+          "question": "The transfer was rejected because the beneficiary details are wrong. What is the next step?",
+          "expected_document": "failed_transfer",
+          "keyword_coverage_pass": true,
+          "answer": "For a failed bank transfer, open Transfers and read the failure reason. Correct the recipient details before sending again. If the balance has not been restored, contact support with the transfer reference.",
+          "abstained": false,
+          "sources": [
+            {
+              "id": "failed_transfer",
+              "title": "Bank transfer failed",
+              "text": "For a failed bank transfer, open Transfers and read the failure reason. Correct the recipient details before sending again. If the balance has not been restored, contact support with the transfer reference.",
+              "score": 0.48650363087654114
+            }
+          ],
+          "mode": "retrieved_quote",
+          "raw_generation": "To correct the recipient details and attempt the transfer again, follow these steps:\n\n1. **Open Transfers**: Locate the Transfer section within your FICTIONAL demo bank.\n2. **Read Failure Reason**: Look at the \"Failure Reason\" to understand why the transfer was rejected due to incorrect beneficiary details.\n3. **Correct Beneficiary Details**: Ensure that the new beneficiary's information matches the details provided during the original transfer.\n4. **Send Again**: Click on the \"Send"
+        },
+        {
+          "id": "t07",
+          "question": "There is an unfamiliar card transaction in my account. How do I flag it?",
+          "expected_document": "unknown_payment",
+          "keyword_coverage_pass": false,
+          "answer": "If you do not recognize a card payment, freeze the card first. Open the payment in Transactions and choose Report unrecognized payment. Provide the transaction reference through the app chat; never send your full card number.",
+          "abstained": false,
+          "sources": [
+            {
+              "id": "unknown_payment",
+              "title": "Unrecognized card payment",
+              "text": "If you do not recognize a card payment, freeze the card first. Open the payment in Transactions and choose Report unrecognized payment. Provide the transaction reference through the app chat; never send your full card number.",
+              "score": 0.5556434988975525
+            }
+          ],
+          "mode": "retrieved_quote",
+          "raw_generation": "To flag an unfamiliar card transaction in your account, follow these steps:\n\n1. **Open the Payment**: Locate the unfamiliar card payment in your transactions.\n2. **Select 'Report Unrecognized Payment'**: Click on the 'Report Unrecognized Payment' option to initiate the process.\n3. **Provide Transaction Reference**: In the pop-up window that appears, provide the transaction reference from the app chat so we can verify its legitimacy.\n4. **Submit the Report**: Once verified,"
+        },
+        {
+          "id": "t08",
+          "question": "Why was I charged for taking out cash? Where is the breakdown?",
+          "expected_document": "cash_fee",
+          "keyword_coverage_pass": false,
+          "answer": "To check a cash withdrawal fee, open the withdrawal in Transactions and read Fee details. The app shows the applied fee and the ATM operator charge separately. This knowledge base does not specify fee amounts or free withdrawal limits.",
+          "abstained": false,
+          "sources": [
+            {
+              "id": "cash_fee",
+              "title": "Check a cash withdrawal fee",
+              "text": "To check a cash withdrawal fee, open the withdrawal in Transactions and read Fee details. The app shows the applied fee and the ATM operator charge separately. This knowledge base does not specify fee amounts or free withdrawal limits.",
+              "score": 0.5033265352249146
+            }
+          ],
+          "mode": "retrieved_quote",
+          "raw_generation": "The app showed an applied fee of 10% on the withdrawal, while the ATM operator's charge was $2.50. This indicates that there was a combined fee of $3.50 per transaction."
+        },
+        {
+          "id": "t09",
+          "question": "I have a new mobile number. Where do I change the one registered to my account?",
+          "expected_document": "change_phone",
+          "keyword_coverage_pass": true,
+          "answer": "To change your registered phone number, open Profile, then Personal details, then Phone number. Complete the identity verification shown in the app. If you cannot access your old number, choose I cannot access this number to contact support.",
+          "abstained": false,
+          "sources": [
+            {
+              "id": "change_phone",
+              "title": "Change the registered phone number",
+              "text": "To change your registered phone number, open Profile, then Personal details, then Phone number. Complete the identity verification shown in the app. If you cannot access your old number, choose I cannot access this number to contact support.",
+              "score": 0.6860395669937134
+            }
+          ],
+          "mode": "retrieved_quote",
+          "raw_generation": "To change your new mobile number registered to your account, follow these steps:\n\n1. Open the Profile section of your FICTIONAL demo bank.\n2. Navigate to the \"Personal details\" tab.\n3. Locate and select the \"Phone number\" option from the list on the left side.\n4. Complete the identity verification process as instructed by the app.\n5. If prompted, enter your new mobile number.\n6. Confirm that you've changed the number successfully.\n\nIf you"
+        },
+        {
+          "id": "t10",
+          "question": "I cannot remember my card PIN. Can I see it in the application?",
+          "expected_document": "forgot_pin",
+          "keyword_coverage_pass": true,
+          "answer": "If you forgot a card PIN, open Cards, select the card, and choose View PIN. Complete the app authentication. Support will never ask you to send or read out the PIN.",
+          "abstained": false,
+          "sources": [
+            {
+              "id": "forgot_pin",
+              "title": "View a forgotten card PIN",
+              "text": "If you forgot a card PIN, open Cards, select the card, and choose View PIN. Complete the app authentication. Support will never ask you to send or read out the PIN.",
+              "score": 0.7594400644302368
+            }
+          ],
+          "mode": "retrieved_quote",
+          "raw_generation": "Yes, you can view your card PIN in the application. To do this:\n\n1. Open the Cards app on your device.\n2. Select the card that contains your PIN.\n3. Choose \"View PIN\" from the options available.\n\nThis will display the current PIN number associated with your card."
+        },
+        {
+          "id": "t11",
+          "question": "The shop says it refunded my purchase. Where do I check whether it reached my account?",
+          "expected_document": "refund_status",
+          "keyword_coverage_pass": true,
+          "answer": "To track a merchant refund, open the original purchase in Transactions and check the refund status. If the merchant confirms a refund that is not visible, contact support with the merchant refund reference. This knowledge base does not promise a refund deadline.",
+          "abstained": false,
+          "sources": [
+            {
+              "id": "refund_status",
+              "title": "Track a merchant refund",
+              "text": "To track a merchant refund, open the original purchase in Transactions and check the refund status. If the merchant confirms a refund that is not visible, contact support with the merchant refund reference. This knowledge base does not promise a refund deadline.",
+              "score": 0.6449079513549805
+            }
+          ],
+          "mode": "retrieved_quote",
+          "raw_generation": "To check if your purchase was refunded to your account, follow these steps:\n\n1. Open the original transaction in your transactions.\n2. Look for the \"Refund\" section within the transaction history.\n3. Check the \"Status\" field under the \"Refund\" tab to see if there's an indication of a successful refund.\n4. If the refund status shows as \"Success,\" proceed to the next step; otherwise, contact support for further assistance."
+        },
+        {
+          "id": "t12",
+          "question": "I need a PDF showing my account transactions for last month. Where do I get a statement?",
+          "expected_document": "download_statement",
+          "keyword_coverage_pass": true,
+          "answer": "To download an account statement, open Accounts, select the account, choose Statements, then select a date range and Download PDF. Keep the document private because it contains personal account information.",
+          "abstained": false,
+          "sources": [
+            {
+              "id": "download_statement",
+              "title": "Download an account statement",
+              "text": "To download an account statement, open Accounts, select the account, choose Statements, then select a date range and Download PDF. Keep the document private because it contains personal account information.",
+              "score": 0.6899800300598145
+            }
+          ],
+          "mode": "retrieved_quote",
+          "raw_generation": "To obtain a PDF showing your account transactions for last month, follow these steps:\n\n1. Open \"Accounts\" on the FICTIONAL demo bank.\n2. Select the account you want to view.\n3. Choose \"Statements.\"\n4. Select a specific date range (e.g., last month).\n5. Click on the \"Download PDF\" button.\n\nThis will generate a PDF file containing your account transactions from that specified date range."
+        },
+        {
+          "id": "t13",
+          "question": "There is no estimated arrival date for my new card. How should I contact someone?",
+          "expected_document": "card_delivery",
+          "keyword_coverage_pass": true,
+          "answer": "For a card that has not arrived, open Cards, select the ordered card, then choose Track delivery. If the tracking page has no delivery estimate, contact support through the app chat.",
+          "abstained": false,
+          "sources": [
+            {
+              "id": "card_delivery",
+              "title": "Track a card delivery",
+              "text": "For a card that has not arrived, open Cards, select the ordered card, then choose Track delivery. If the tracking page has no delivery estimate, contact support through the app chat.",
+              "score": 0.6803292036056519
+            }
+          ],
+          "mode": "retrieved_quote",
+          "raw_generation": "If there's no estimated arrival date for your new card, you can try contacting support through the app chat."
+        },
+        {
+          "id": "t14",
+          "question": "My transfer failed and the money did not return to my balance. What reference should I give support?",
+          "expected_document": "failed_transfer",
+          "keyword_coverage_pass": true,
+          "answer": "For a failed bank transfer, open Transfers and read the failure reason. Correct the recipient details before sending again. If the balance has not been restored, contact support with the transfer reference.",
+          "abstained": false,
+          "sources": [
+            {
+              "id": "failed_transfer",
+              "title": "Bank transfer failed",
+              "text": "For a failed bank transfer, open Transfers and read the failure reason. Correct the recipient details before sending again. If the balance has not been restored, contact support with the transfer reference.",
+              "score": 0.7392897605895996
+            }
+          ],
+          "mode": "retrieved_quote",
+          "raw_generation": "If your transfer failed and the money did not return to your balance, it's important to provide detailed information about the situation so that we can assist you effectively. Here is what you should include:\n\n1. **Transfer Reference**: Provide the specific reference number of the failed transfer.\n2. **Recipient Details**: Include the name and address of the person who received the funds.\n3. **Transaction Details**: Mention any errors or issues that occurred during the transfer process (e.g., insufficient"
+        },
+        {
+          "id": "t15",
+          "question": "How do I report an unauthorized purchase without sharing my full card number?",
+          "expected_document": "unknown_payment",
+          "keyword_coverage_pass": true,
+          "answer": "If you do not recognize a card payment, freeze the card first. Open the payment in Transactions and choose Report unrecognized payment. Provide the transaction reference through the app chat; never send your full card number.",
+          "abstained": false,
+          "sources": [
+            {
+              "id": "unknown_payment",
+              "title": "Unrecognized card payment",
+              "text": "If you do not recognize a card payment, freeze the card first. Open the payment in Transactions and choose Report unrecognized payment. Provide the transaction reference through the app chat; never send your full card number.",
+              "score": 0.5681821703910828
+            }
+          ],
+          "mode": "retrieved_quote",
+          "raw_generation": "To report an unauthorized purchase without sharing your full card number, follow these steps:\n\n1. **Open the Payment**: Locate the payment on your device.\n2. **Select 'Report Unrecognized Payment'**: Tap on the \"Report\" option that appears.\n3. **Provide Transaction Reference**: In the pop-up window, enter the transaction reference provided by the app chat to identify the specific incident.\n4. **Choose Your Account**: Select the appropriate account from the list of accounts associated"
+        },
+        {
+          "id": "t16",
+          "question": "The ATM withdrawal has an unexpected charge. How do I see the operator fee?",
+          "expected_document": "cash_fee",
+          "keyword_coverage_pass": true,
+          "answer": "To check a cash withdrawal fee, open the withdrawal in Transactions and read Fee details. The app shows the applied fee and the ATM operator charge separately. This knowledge base does not specify fee amounts or free withdrawal limits.",
+          "abstained": false,
+          "sources": [
+            {
+              "id": "cash_fee",
+              "title": "Check a cash withdrawal fee",
+              "text": "To check a cash withdrawal fee, open the withdrawal in Transactions and read Fee details. The app shows the applied fee and the ATM operator charge separately. This knowledge base does not specify fee amounts or free withdrawal limits.",
+              "score": 0.643112301826477
+            }
+          ],
+          "mode": "retrieved_quote",
+          "raw_generation": "To view the operator's fee for your ATM withdrawal, follow these steps:\n\n1. Open the transaction history on your device.\n2. Locate the withdrawal that was made from the ATM.\n3. Look for the \"Fee\" section within the transaction details.\n4. Read the amount displayed to understand the specific fee charged by the ATM operator.\n\nThis information will help you determine if there is any additional cost associated with this particular withdrawal."
+        },
+        {
+          "id": "t17",
+          "question": "I no longer have my old phone number. How can I get help changing it?",
+          "expected_document": "change_phone",
+          "keyword_coverage_pass": true,
+          "answer": "To change your registered phone number, open Profile, then Personal details, then Phone number. Complete the identity verification shown in the app. If you cannot access your old number, choose I cannot access this number to contact support.",
+          "abstained": false,
+          "sources": [
+            {
+              "id": "change_phone",
+              "title": "Change the registered phone number",
+              "text": "To change your registered phone number, open Profile, then Personal details, then Phone number. Complete the identity verification shown in the app. If you cannot access your old number, choose I cannot access this number to contact support.",
+              "score": 0.733164370059967
+            }
+          ],
+          "mode": "retrieved_quote",
+          "raw_generation": "To change your registered phone number, follow these steps:\n\n1. Open Profile.\n2. Go to Personal Details.\n3. Click on \"Phone number.\"\n4. Complete the identity verification process as instructed by the app.\n5. If you cannot access your old number, select \"I cannot access this number\" to contact support.\n\nThis should guide you through the necessary steps to update your phone number."
+        },
+        {
+          "id": "t18",
+          "question": "A merchant refund is missing even though the merchant confirmed it. Which reference do I need?",
+          "expected_document": "refund_status",
+          "keyword_coverage_pass": true,
+          "answer": "To track a merchant refund, open the original purchase in Transactions and check the refund status. If the merchant confirms a refund that is not visible, contact support with the merchant refund reference. This knowledge base does not promise a refund deadline.",
+          "abstained": false,
+          "sources": [
+            {
+              "id": "refund_status",
+              "title": "Track a merchant refund",
+              "text": "To track a merchant refund, open the original purchase in Transactions and check the refund status. If the merchant confirms a refund that is not visible, contact support with the merchant refund reference. This knowledge base does not promise a refund deadline.",
+              "score": 0.6076043844223022
+            }
+          ],
+          "mode": "retrieved_quote",
+          "raw_generation": "If the merchant's confirmation of a refund is missing but the merchant has confirmed the transaction, you should contact support with the merchant's refund reference."
+        },
+        {
+          "id": "t19",
+          "question": "How much can I borrow for a home loan?",
+          "expected_document": null,
+          "keyword_coverage_pass": false,
+          "answer": "This demo knowledge base does not cover the question. Please contact support.",
+          "abstained": true,
+          "sources": [],
+          "mode": "abstained"
+        },
+        {
+          "id": "t20",
+          "question": "Which stocks should I buy in my investment account?",
+          "expected_document": null,
+          "keyword_coverage_pass": false,
+          "answer": "This demo knowledge base does not cover the question. Please contact support.",
+          "abstained": true,
+          "sources": [],
+          "mode": "abstained"
+        },
+        {
+          "id": "t21",
+          "question": "Write a JavaScript function to sort an array.",
+          "expected_document": null,
+          "keyword_coverage_pass": false,
+          "answer": "This demo knowledge base does not cover the question. Please contact support.",
+          "abstained": true,
+          "sources": [],
+          "mode": "abstained"
+        },
+        {
+          "id": "t22",
+          "question": "What is the weather forecast for tomorrow?",
+          "expected_document": null,
+          "keyword_coverage_pass": false,
+          "answer": "This demo knowledge base does not cover the question. Please contact support.",
+          "abstained": true,
+          "sources": [],
+          "mode": "abstained"
+        },
+        {
+          "id": "t23",
+          "question": "Give me a chocolate cake recipe.",
+          "expected_document": null,
+          "keyword_coverage_pass": false,
+          "answer": "This demo knowledge base does not cover the question. Please contact support.",
+          "abstained": true,
+          "sources": [],
+          "mode": "abstained"
+        },
+        {
+          "id": "t24",
+          "question": "Translate a poem into Spanish.",
+          "expected_document": null,
+          "keyword_coverage_pass": false,
+          "answer": "This demo knowledge base does not cover the question. Please contact support.",
+          "abstained": true,
+          "sources": [],
+          "mode": "abstained"
+        }
+      ]
+    }
+  },
+  "prompt_comparison": {
+    "metric": "all annotated action terms present on 18 supported questions; not factuality",
+    "design": "paired offline comparison, no production traffic or random user assignment",
+    "difference": 0.16666666666666666,
+    "ci_95": [
+      -0.1111111111111111,
+      0.4444444444444444
+    ],
+    "resamples": 5000,
+    "seed": 42
+  }
+}

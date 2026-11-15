@@ -55,6 +55,9 @@ parameters; read the generated answers in the report before drawing conclusions.
 
 ## Evaluation
 
+The checked-in [evaluation summary and raw runs](reports/README.md) include measured
+retrieval scores, raw model answers, quote-fallback counts and the Docker API response.
+
 ```bash
 python -m rag.evaluate                 # retrieval and development-only calibration
 python -m rag.evaluate --generation    # also compare the two prompts
