@@ -16,19 +16,17 @@ class SupportAssistant:
         self.threshold = threshold
 
     def answer(self, question: str, variant: str = "grounded", *, include_raw: bool = False) -> dict:
-        hits = self.retriever.search(question, k=min(3, len(self.retriever.documents)))
-        if hits[0].score < self.threshold:
+        hit = self.retriever.search(question, k=1)[0]
+        if hit.score < self.threshold:
             return {"answer": ABSTENTION, "abstained": True, "sources": [], "mode": "abstained"}
-        # Keep the small model focused on the best document. Return only context it saw.
-        context = hits[:1]
-        generated = self.generator.generate(question, context, variant).strip()
-        source = context[0].document.text
+        generated = self.generator.generate(question, [hit], variant).strip()
+        source = hit.document.text
         allowed_quotes = [source, *re.split(r"(?<=[.!?])\s+", source)]
         is_quote = generated in allowed_quotes
         result = {
             "answer": generated if is_quote else source,
             "abstained": False,
-            "sources": [{**asdict(hit.document), "score": hit.score} for hit in context],
+            "sources": [{**asdict(hit.document), "score": hit.score}],
             "mode": "verbatim_generation" if is_quote else "retrieved_quote",
         }
         if include_raw:

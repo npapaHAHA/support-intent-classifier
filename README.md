@@ -1,10 +1,8 @@
 # Support Intent Classifier
 
-В репозитории также есть [RAG-помощник по учебной базе знаний](rag/README.md):
-семантический поиск, локальная языковая модель, сравнение двух промптов и офлайн-оценка.
-База знаний вымышленная; инструкции не относятся к Сберу или другому реальному банку.
+Классификатор определяет одну из 77 тем банковского обращения на английском. Модель использует TF-IDF по словам и символам и LinearSVC. Готовые веса входят в репозиторий, запросы принимает FastAPI.
 
-Отправьте текст банковского обращения на английском, и API на FastAPI вернёт одну из 77 категорий BANKING77. Для классификации используется LinearSVC с TF-IDF по словам и символам. Готовую модель можно запустить сразу или обучить заново по инструкции ниже.
+Отдельный [RAG-помощник по учебной базе знаний](rag/README.md) ищет инструкции и формирует ответ с источником. В нём сравниваются два промпта и варианты поиска. Инструкции вымышленные и не относятся к Сберу или другому реальному банку.
 
 ## Запуск в Docker
 
@@ -13,9 +11,9 @@ docker build -t support-intent-classifier .
 docker run --rm -p 127.0.0.1:8000:8000 support-intent-classifier
 ~~~
 
-Контейнер при старте читает [готовую модель](models/support-intents.joblib). После загрузки `GET /health` возвращает `{"status":"ok"}`. Документация API открывается на [localhost:8000/docs](http://localhost:8000/docs).
+Контейнер загружает [готовую модель](models/support-intents.joblib). После этого `GET /health` возвращает `{"status":"ok"}`. Схема запросов доступна в [Swagger UI](http://localhost:8000/docs).
 
-Откройте второй терминал и отправьте [пример запроса](example-request.json) к `POST /predict`.
+Во втором терминале отправьте [пример запроса](example-request.json) к `POST /predict`.
 
 ~~~sh
 curl --fail-with-body \
@@ -28,7 +26,7 @@ curl --fail-with-body \
 curl.exe --fail-with-body -H "Content-Type: application/json" --data-binary "@example-request.json" http://127.0.0.1:8000/predict
 ~~~
 
-В примере клиент пишет, что карта ещё не пришла.
+Пример обращения о задержке доставки карты:
 
 ~~~json
 {"text": "My card has not arrived in the mail yet"}
@@ -38,7 +36,7 @@ curl.exe --fail-with-body -H "Content-Type: application/json" --data-binary "@ex
 {"intent": "card_arrival"}
 ~~~
 
-В поле `text` можно передать до 1 000 символов. На пустой или некорректный запрос API отвечает HTTP 422. Классификатор всегда выбирает одну из 77 тем. Для сообщений на другие темы понадобится отдельное правило маршрутизации.
+Поле `text` принимает до 1 000 символов. Пустые и некорректные запросы получают HTTP 422. Модель всегда выбирает одну из 77 тем, поэтому для обращений вне BANKING77 потребуется отдельное правило маршрутизации.
 
 ## Оценка
 
@@ -53,7 +51,7 @@ curl.exe --fail-with-body -H "Content-Type: application/json" --data-binary "@ex
 | Validation | TF-IDF по словам и символам + LinearSVC | **0,899** |
 | Test | TF-IDF по словам и символам + LinearSVC | **0,909** |
 
-Одна из частых ошибок связана с переводами. Модель путала `pending_transfer` и `failed_transfer`. Accuracy, размеры выборок и остальные частые ошибки есть в [отчёте](metrics.json).
+Модель часто путала `pending_transfer` и `failed_transfer`. Accuracy, размеры выборок и другие ошибки приведены в [отчёте](metrics.json).
 
 ## Обучение и тесты
 
@@ -71,7 +69,7 @@ py -3.13 -m venv .venv
 
 Для запуска API с новой моделью укажите `artifacts/model.joblib` в переменной `SUPPORT_MODEL_PATH` и выполните `python -m uvicorn api:app`. В CLI готовую модель можно проверить командой `python predict.py "My card has not arrived in the mail yet"`.
 
-Тесты проверяют очистку текста, удаление дубликатов между выборками и ответы сохранённой модели на корректные и некорректные запросы. [GitHub Actions](.github/workflows/ci.yml) прогоняет эти тесты, а затем проверяет API в собранном контейнере.
+[GitHub Actions](.github/workflows/ci.yml) запускает быстрые тесты очистки данных, разделения выборок и API. Веса LLM для них не нужны. Проверку Docker-контейнера можно включить вручную параметром `check_container`. Полный RAG-прогон вынесен в отдельный ручной workflow, чтобы обычные правки проходили быстрее.
 
 Скрипт скачивает CSV из указанной версии набора, опубликованного под CC BY 4.0. [BANKING77 от PolyAI](https://github.com/PolyAI-LDN/task-specific-datasets/tree/57ec275d8078af65b7731c2a98be812d844a6d6b/banking_data)
 

@@ -5,6 +5,7 @@ from rag.retrieval import Hit
 
 GENERATION_MODEL = "Qwen/Qwen2.5-0.5B-Instruct"
 GENERATION_REVISION = "7ae557604adf67be50417f59c2c2f167def9a775"
+MAX_NEW_TOKENS = 96
 
 
 def build_messages(question: str, hits: list[Hit], variant: str = "grounded") -> list[dict]:
@@ -48,7 +49,7 @@ class LocalGenerator:
         )
         with self.lock, self.torch.inference_mode():
             tokens = self.model.generate(
-                **inputs, max_new_tokens=96, do_sample=False,
+                **inputs, max_new_tokens=MAX_NEW_TOKENS, do_sample=False,
                 pad_token_id=self.tokenizer.eos_token_id,
             )
         return self.tokenizer.decode(

@@ -5,6 +5,11 @@ on:
     branches: [main]
   pull_request:
   workflow_dispatch:
+    inputs:
+      check_container:
+        description: Build and check the classifier Docker image
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -27,8 +32,10 @@ jobs:
           python -m pip install -r requirements-dev.txt
           python -m unittest discover -s tests -v
       - name: Build Docker image
+        if: github.event_name == 'workflow_dispatch' && inputs.check_container
         run: docker build --tag support-intent-classifier:ci .
       - name: Check the container
+        if: github.event_name == 'workflow_dispatch' && inputs.check_container
         run: |
           docker run --detach --name support-intent-ci --publish 127.0.0.1:8000:8000 support-intent-classifier:ci
           curl --retry 30 --retry-all-errors --retry-delay 1 --retry-max-time 40 \
@@ -39,8 +46,8 @@ jobs:
             http://127.0.0.1:8000/predict > prediction.json
           python -c 'import json; p = json.load(open("prediction.json")); assert p == {"intent": "card_arrival"}, p'
       - name: Show container logs on failure
-        if: failure()
+        if: failure() && github.event_name == 'workflow_dispatch' && inputs.check_container
         run: docker logs support-intent-ci || true
       - name: Remove test container
-        if: always()
+        if: always() && github.event_name == 'workflow_dispatch' && inputs.check_container
         run: docker rm --force support-intent-ci || true

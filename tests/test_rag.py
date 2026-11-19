@@ -1,5 +1,5 @@
 import unittest
-from unittest.mock import Mock
+from unittest.mock import Mock, patch
 
 from fastapi.testclient import TestClient
 import numpy as np
@@ -107,9 +107,8 @@ class AssistantTest(unittest.TestCase):
         self.assertIn("[card]", messages[1]["content"])
 
     def test_api_validation_and_response_without_model_download(self):
-        # Exercise HTTP separately from expensive, explicitly run model evaluation.
         self.retriever.search.return_value = [Hit(self.doc, 0.1)]
-        app.state.assistant = self.assistant
+        self.enterContext(patch.object(app.state, "assistant", self.assistant, create=True))
         client = TestClient(app)
         self.assertEqual(client.post("/answer", json={"question": "cake"}).status_code, 200)
         for payload in ({}, {"question": " "}, {"question": 1}, {"question": "x" * 1001},

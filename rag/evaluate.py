@@ -8,7 +8,7 @@ import platform
 
 import numpy as np
 
-from rag.generation import GENERATION_MODEL, GENERATION_REVISION, LocalGenerator
+from rag.generation import GENERATION_MODEL, GENERATION_REVISION, MAX_NEW_TOKENS, LocalGenerator
 from rag.retrieval import EMBEDDING_MODEL, EMBEDDING_REVISION, ROOT, Retriever, load_documents
 from rag.service import SupportAssistant
 
@@ -94,6 +94,8 @@ def main():
         "models": {"embedding": EMBEDDING_MODEL, "embedding_revision": EMBEDDING_REVISION,
                    "generation": GENERATION_MODEL, "generation_revision": GENERATION_REVISION},
         "generation_context_documents": 1,
+        "generation_settings": {"max_new_tokens": MAX_NEW_TOKENS, "do_sample": False,
+                                "device": "cpu", "torch_num_threads": 4},
         "generation_readout": "Exploratory: Qwen/top-1 context chosen after qualitative review of SmolLM2 outputs on this benchmark",
         "retrieval": {},
     }
@@ -145,8 +147,9 @@ def main():
                 "verbatim_generation_count": sum(record["mode"] == "verbatim_generation" for record in records),
                 "predictions": records,
             }
+        supported_count = sum(case["document_id"] is not None for case in test)
         report["prompt_comparison"] = {
-            "metric": "all annotated action terms present on 18 supported questions; not factuality",
+            "metric": f"all annotated action terms present on {supported_count} supported questions; not factuality",
             "design": "paired offline comparison, no production traffic or random user assignment",
             **paired_bootstrap(outcomes["plain"], outcomes["grounded"]),
         }

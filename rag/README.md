@@ -1,62 +1,71 @@
-# Banking support RAG demo
+# Помощник по банковским обращениям
 
-This module adds retrieval-augmented generation alongside the BANKING77 intent classifier.
-It answers English support questions using 12 short, fictional banking instructions.
-These are authored demo materials, not Sber policies or official advice from a bank.
+Сервис ищет ответ в 12 учебных инструкциях на английском. Поиск работает на MiniLM,
+ответ формирует Qwen2.5-0.5B. Если текст модели не совпадает с предложением из
+найденной инструкции, API возвращает инструкцию целиком. При низком сходстве
+сервис просит обратиться в поддержку.
 
-## Run
+Инструкции вымышленные и не описывают продукты или правила Сбера и других банков.
+Основной [классификатор BANKING77](../README.md) запускается отдельно.
 
-Use Python 3.13. From the repository root:
+## Запуск
+
+Нужен Python 3.13. Выполните из корня репозитория:
 
 ```bash
 python -m venv .venv
 source .venv/bin/activate
 python -m pip install torch==2.15.0 --index-url https://download.pytorch.org/whl/cpu
 python -m pip install -r requirements-dev.txt -r requirements-rag.txt
-python -m rag.evaluate --generation
 python -m uvicorn rag.api:app --port 8001
 ```
 
-The activation command above is for Linux/macOS. In Windows PowerShell use
-`.\.venv\Scripts\Activate.ps1`. Use the Python executable from the activated virtual environment. On Windows it is
-`.venv\Scripts\python.exe`; on Linux/macOS it is `.venv/bin/python`.
-The first evaluation downloads public model weights; subsequent runs can use the cache.
-No API key, paid endpoint or GPU is required. Both model revisions are pinned in source.
+Команда активации выше подходит для Linux и macOS. В PowerShell используйте
+`.\.venv\Scripts\Activate.ps1`. Можно вызывать Python напрямую:
+`.venv\Scripts\python.exe` в Windows или `.venv/bin/python` в Linux и macOS.
+
+Первый запуск скачивает веса моделей. Дальше они берутся из кэша.
+API-ключ и GPU не нужны; версии весов закреплены в исходниках.
+
+Отправьте запрос из второго терминала:
 
 ```bash
 curl --fail-with-body -H "Content-Type: application/json" \
   --data-binary @rag/example-request.json http://127.0.0.1:8001/answer
 ```
 
-In PowerShell use `curl.exe` with the same arguments on one line. The response contains
-`answer`, `abstained`, and `sources` with document IDs, text and cosine scores.
-The best matching document is passed to generation and returned as the source.
-`mode` reports `verbatim_generation`, `retrieved_quote`, or `abstained`.
-Sources are retrieved context, not proof that every generated claim is supported.
+В PowerShell используйте `curl.exe` и запишите команду в одну строку.
+Ответ содержит `answer`, `abstained`, `sources` с ID, текстом инструкции и
+косинусным сходством. В `mode` указан способ получения ответа:
+`verbatim_generation`, `retrieved_quote` или `abstained`.
 
-## What is implemented
+В ответ попадает только документ, переданный модели. Совпадение цитаты с
+источником ещё не означает, что поиск выбрал подходящую инструкцию.
 
-- Dense retrieval with `sentence-transformers/all-MiniLM-L6-v2`, normalized embeddings
-  and cosine similarity; word/bigram TF-IDF is the comparison baseline.
-- Local CPU generation with `Qwen/Qwen2.5-0.5B-Instruct`. One prompt simply
-  asks for an answer from the notes; the other asks for a short next action, gives
-  explicit context boundaries, and asks the model to avoid inventing facts.
-- A similarity threshold selected using **only 12 development questions**. Below it,
-  the service returns a fixed refusal and does not call the language model.
-- An exact-quote check on the generated response. It must equal one complete source
-  sentence or the complete source document. Otherwise the service returns the source
-  document itself. Raw generation is available in offline evaluation, not the HTTP reply.
-- Evaluation on **24 separate authored questions**: 18 supported and 6 unsupported,
-  including questions about loans and investments that are absent from the notes.
+## Как работает поиск
 
-The 12 documents are already short, self-contained chunks. There is no need for a vector
-database at this scale: the embeddings fit in memory. The language model has about 0.5B
-parameters; read the generated answers in the report before drawing conclusions.
+`sentence-transformers/all-MiniLM-L6-v2` переводит вопрос и инструкции в
+нормированные векторы. Поиск ранжирует документы по косинусному сходству.
+Для сравнения используется TF-IDF по словам и биграммам. Все 12 коротких
+документов помещаются в памяти, поэтому отдельная векторная БД здесь не нужна.
 
-## Evaluation
+Порог отказа подбирается на 12 вопросах из dev-выборки. Оценка проводится
+на других 24 вопросах: 18 имеют ответ в базе, 6 выходят за её пределы.
+Среди последних есть вопросы о кредитах и инвестициях.
 
-The checked-in [evaluation summary and raw runs](reports/README.md) include measured
-retrieval scores, raw model answers, quote-fallback counts and the Docker API response.
+## Генерация и оценка
+
+`Qwen/Qwen2.5-0.5B-Instruct` работает на CPU. Сравниваются два промпта:
+первый просит ответить по инструкции, второй дополнительно ограничивает ответ
+фактами из неё и просит назвать короткое следующее действие.
+
+Сервис принимает от модели целое предложение из источника или весь его текст.
+Остальные ответы заменяет найденной инструкцией. Сырые ответы остаются
+в офлайн-отчёте и не выдаются через HTTP. В последнем прогоне эта замена
+понадобилась для всех 18 вопросов, на которые база содержит ответ.
+
+[Результаты и сырые прогоны](reports/README.md) включают оценки поиска,
+ответы моделей, число замен и ответ контейнера на пример запроса.
 
 ```bash
 python -m rag.evaluate                 # retrieval and development-only calibration
@@ -64,46 +73,47 @@ python -m rag.evaluate --generation    # also compare the two prompts
 python -m unittest discover -s tests -v
 ```
 
-`reports/evaluation.json` records input checksums, model revisions, package versions,
-retrieval Recall@1/3, MRR@3, supported acceptance and unsupported rejection rates.
-The complete ranked documents and generated answers are included for inspection.
-The calibration output is saved to `config.json` and used by the API.
+`reports/evaluation.json` содержит контрольные суммы данных, версии моделей и
+пакетов, Recall@1/3, MRR@3, долю принятых вопросов и отказов. Там же сохранены
+списки найденных документов и ответы. Подобранный порог записывается в
+`config.json`, который читает API.
 
-For generation, the automatic proxy checks whether all manually annotated action terms
-appear in the **raw model response, before quote fallback**. This is **keyword coverage**, not factual accuracy or a guarantee
-against hallucinations. The paired bootstrap resamples supported questions, preserving
-both prompt results for each question. Its 95% interval applies only to this small,
-authored benchmark. This is an offline prompt comparison, not a live A/B test.
+Для сравнения промптов проверяется, встретились ли все размеченные ключевые
+слова в сыром ответе модели до замены цитатой. Эта метрика может засчитать
+неверный ответ. Парный bootstrap оценивает разницу по одним и тем же вопросам;
+95% интервал в последнем прогоне включает ноль. Преимущество одного промпта
+по этому набору не подтверждено.
 
-The initial SmolLM2-135M run with three retrieved documents is preserved in
-`reports/smollm2-baseline.json`. Its answers sometimes copied unrelated context or
-answered the wrong question. Qwen with a single context document was chosen after
-reading those outputs. Consequently the current generation comparison on these
-same questions is exploratory, not a fresh, blinded test of model selection.
+Первый прогон SmolLM2-135M с тремя документами сохранён в
+`reports/smollm2-baseline.json`. Модель копировала лишний контекст и отвечала
+не на тот вопрос. После просмотра этих ответов выбраны Qwen и один документ
+контекста. Qwen тоже придумывала детали, в том числе комиссию, которой нет
+в инструкции, поэтому добавлена проверка цитаты.
 
-Qwen also invented details on this set, including a fee not present in the instructions.
-The quote fallback was added after inspecting those outputs. Counts of fallback and
-verbatim generation are reported separately. This trades free-form answers for traceable
-source text. A correct quote can still be irrelevant if retrieval chooses the wrong document.
+Модель и правило замены выбирались после просмотра ответов на этом же наборе.
+Сравнение генерации поэтому остаётся исследовательским. Оно не заменяет
+новую отложенную выборку или A/B-тест с пользователями.
 
-The evaluation set does not establish quality on real customer traffic. A cosine
-threshold can miss unsupported questions; prompt instructions do not guarantee protection
-against prompt injection. Account data, transaction execution, agents, fine-tuning,
-LoRA and RLHF are outside this implementation.
+Маленький учебный набор не показывает качество на реальных обращениях.
+Порог сходства может пропустить вопрос вне базы, а инструкции в промпте
+не гарантируют защиты от prompt injection. Работа со счетами, выполнение
+транзакций, агентские циклы, fine-tuning, LoRA и RLHF здесь не реализованы.
 
-## Docker and CI
+## Docker и проверки
 
 ```bash
 docker build -f Dockerfile.rag -t support-rag .
 docker run --rm -p 127.0.0.1:8001:8001 -v support-rag-cache:/tmp/huggingface support-rag
 ```
 
-On first startup the container downloads model weights. `/health` becomes available after
-the models have loaded. The existing classification service still uses its own Dockerfile.
-The regular CI runs unit/API tests without downloading LLM weights. The separate
-**RAG evaluation** workflow runs both real models, builds the additional image, makes
-an HTTP request to the running container, and uploads results as an artifact.
+При первом старте контейнер скачивает модели. `/health` отвечает после их
+загрузки. У классификатора обращений свой Dockerfile.
 
-Model references: [MiniLM model card](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2),
-[Qwen model card](https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct),
-[initial SmolLM2 baseline](https://huggingface.co/HuggingFaceTB/SmolLM2-135M-Instruct).
+Обычный CI запускает быстрые тесты Python без загрузки LLM. Сборку и проверку
+контейнера классификатора можно включить вручную через `check_container`.
+Отдельный workflow **RAG evaluation** запускается вручную: он проверяет
+реальные модели и RAG-контейнер, затем сохраняет отчёты в артефакт.
+
+Модели: [MiniLM](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2),
+[Qwen](https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct),
+[SmolLM2 из первого прогона](https://huggingface.co/HuggingFaceTB/SmolLM2-135M-Instruct).
